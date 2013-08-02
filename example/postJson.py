@@ -15,21 +15,21 @@ resp = fb.search(q='project:inbox area:* status:active due:today orderby:due',
 myList = []
 
 for case in resp.cases:
-	date = datetime.strptime(case.dtdue.string, '%Y-%m-%dT%H:%M:%SZ').strftime('%m/%d/%Y')
-	time = str(case.dtdue.string[11:16])
-	departure = case.stitle.string.encode('UTF-8').replace('\"', '')
-	if int((datetime.strptime(case.dtdue.string, '%Y-%m-%dT%H:%M:%SZ') - datetime.now()).days) < 0:
-		status = 3
-	else:
-		status = 2
-	track = random.randrange(0,100)
-	myList.append({'sDate': date ,'sTime':time,'sDeparture':departure,'nStatus': 2,'nTrack':track, 'bLight':False})
+    date = datetime.strptime(case.dtdue.string, '%Y-%m-%dT%H:%M:%SZ').strftime('%m/%d/%Y')
+    time = str(case.dtdue.string[11:16])
+    departure = case.stitle.string.encode('UTF-8').replace('\"', '')
+    if int((datetime.strptime(case.dtdue.string, '%Y-%m-%dT%H:%M:%SZ') - datetime.now()).days) < 0:
+        status = 3
+    else:
+        status = 2
+    track = random.randrange(0,100)
+    myList.append({'sDate': date ,'sTime':time,'sDeparture':departure,'nStatus': 2,'nTrack':track, 'bLight':False})
 
 #turn on the top light
 try:
-	myList[0]['bLight'] = True
+    myList[0]['bLight'] = True
 except:
-	pass
+    pass
 
 print "Content-Type: application/json"
 print
