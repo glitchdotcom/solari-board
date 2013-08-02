@@ -2,9 +2,9 @@
 ![](https://trello-attachments.s3.amazonaws.com/51bf2a13808218916c006928/51f02c885eee4b1708001f67/2c081fd8d5fcf4cb505392784667372e/genericBoard.PNG)
 
 
-Fogcreek has used its [Big Board](http://blog.fogcreek.com/big-board-having-fun-with-data/) for close to three years...and now you can have your own!
+Fog Creek has used its [Big Board](http://blog.fogcreek.com/big-board-having-fun-with-data/) for close to three years...and now you can have your own!
 
-The Solari Board jQuery application will accept any JSON payload. The support team at fog creek feeds in tech call information from FogBugz, but the possibilities are limitless!
+The Solari Board jQuery application will accept any JSON payload. The support team at Fog Creek feeds in tech call information from FogBugz, but the possibilities are limitless!
 
 The solari board assumes a json structure in the following format:
 
