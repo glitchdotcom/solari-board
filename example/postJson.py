@@ -14,29 +14,29 @@ def cgi():
     resp = fb.search(q='project:inbox area:* status:active due:today orderby:due',
                      cols="dtDue,sTitle,sStatus")
 
-    myList = []
+    cases = []
 
     for case in resp.cases:
         date = datetime.strptime(case.dtdue.string, '%Y-%m-%dT%H:%M:%SZ').strftime('%m/%d/%Y')
         time = case.dtdue.string[11:16]
         departure = case.stitle.string.encode('UTF-8').replace('\"', '')
         track = random.randrange(0, 100)
-        myList.append({'sDate': date,
+        cases.append({'sDate': date,
                       'sTime': time,
                       'sDeparture': departure,
                       'nStatus': 2,
                       'nTrack': track,
                       'bLight': False})
 
-#turn on the top light
+    #turn on the top light
     try:
-        myList[0]['bLight'] = True
+        cases[0]['bLight'] = True
     except:
         pass
 
     print "Content-Type: application/json"
     print
-    print json.dumps(myList)
+    print json.dumps(cases)
 
 if __name__ == '__main__':
     cgi()
