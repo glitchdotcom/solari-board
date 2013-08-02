@@ -1,0 +1,361 @@
+* {
+  margin:0;
+}
+
+html, body {
+	height: 98%;
+}
+
+a {
+  text-decoration: none;
+}
+
+.wrapper {
+	min-height: 100%;
+	margin: 0 auto -360px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+	height: 360px; /* .push must be the same height as .footer */
+}
+
+html {
+  color: #000;
+  background: #FFF;
+}
+blockquote, body, button, code, dd, div, dl, dt, fieldset, form, h1,
+h2, h3, h4, h5, h6, input, legend, li, ol, p, pre, td, textarea,
+ul {
+  margin: 0;
+  padding: 0;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+fieldset, img {
+  border: 0;
+}
+address, caption, cite, code, dfn, em, optgroup, strong, th, var {
+  font-style: inherit;
+  font-weight: inherit;
+}
+del, ins {
+  text-decoration: none;
+}
+li {
+  list-style: none;
+}
+span , div{
+  font-family:Lato;
+  }
+
+caption {
+  text-align: left;
+}
+
+q:after, q:before {
+  content: ;
+}
+abbr, acronym {
+  border: 0;
+  font-variant: normal;
+}
+sup {
+  vertical-align: baseline;
+}
+sub {
+  vertical-align: baseline;
+}
+legend {
+  color: #000;
+}
+button, input, optgroup, option, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+}
+button, input, select, textarea {
+  *font-size: 100%;
+}
+html {
+  background: #000;
+  color: #fff;
+}
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  margin: 30px 0 0 0;
+}
+h1 {
+  font-family: "Lato", Arial, sans-serif;
+}
+@font-face {
+  font-family: DS-DigitalNormal;
+  src: url(fonts/ds-digi-webfont.eot);
+  src: local(?),
+    url(fonts/ds-digi-webfont.woff) format(woff),
+    url(fonts/ds-digi-webfont.ttf) format(truetype),
+    url(fonts/ds-digi-webfont.svg#webfontvETSXQKi) format(svg);
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {x	
+  src: url(fonts/rabiohead-webfont.eot);
+  src: local(?),
+    url(fonts/rabiohead-webfont.woff) format(woff),
+    url(fonts/rabiohead-webfont.ttf) format(truetype),
+    url(fonts/rabiohead-webfont.svg#webfontmxfBBRNq) format(svg);
+  font-weight: normal;
+  font-style: normal;
+}
+.panel {
+  background: url("images/panel-bg.png") #27282c;
+  margin: 0 0 10px 0;
+  padding: 10px;
+  border-top: 1px solid #46494a;
+  text-shadow: #000000 1px 1px 1px;
+}
+.solari-board-columns, .solari-board-header, .solari-board-rows {
+  background: url("images/train-panel-bg.png") repeat #262829;
+  margin: 0 0 8px 0;
+  box-shadow: 1px 1px 3px #000;
+  -webkit-box-shadow: 1px 1px 3px #000;
+  -moz-box-shadow: 1px 1px 3px #000;
+}
+.solari-board-header {
+  padding: 10px 15px 10px;
+  height: 55px;
+}
+ul.solari-board-columns {
+  font-size: 18px;
+  font-family: Lato, Arial, sans-serif;
+  height: 21px;
+  padding: 5px 1px 11px 17px;
+}
+ul.solari-board-rows {
+  padding: 2px 0 0;
+}
+
+#epoch-tracking {
+  width: 510px;
+  margin: auto;
+}
+
+span.pc-name{
+  font-size:22px;
+}
+
+img.pc-gravatar{
+  padding-right:4px;
+}
+
+
+a#show-solari {
+  text-decoration: none;
+  color: gray;
+}
+
+li.alert, li.departure, li.product, li.status, li.time, li.track {
+  float: left;
+  margin: 2px 14px 2px 0;
+}
+/* Column Width */
+li.time {
+  width: 112px;
+}
+li.departure {
+  width: 605px;
+}
+li.status {
+  width: 86px;
+}
+li.track {
+  width: 48px;
+}
+li.alert {
+  width: 10px;
+}
+.letterbox {
+  float: left;
+  margin-right: 3px;
+  height: 26px;
+  width: 20px;
+  background: url(/images/letters-final.png) #000000 -3px 0;
+  overflow: hidden;
+  border-left: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+}
+.iconbox {
+  height: 20px;
+  width: 80px;
+  background: url(/images/trainrowbg.png) repeat-x center center #000000;
+  padding: 3px 3px;
+  border-left: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+}
+.icon {
+  height: 20px;
+  width: 80px;
+  background: url(/images/product-logos-blur-again-again.png) #000000 0 0;
+  overflow: hidden;
+}
+.status-icon {
+  height: 20px;
+  width: 80px;
+  background: url(/images/status-blur.png) #000000 0 0;
+  overflow: hidden;
+}
+.dot {
+  float: left;
+  font-size: 200%;
+  margin-top: 3px;
+  margin-right: 1px;
+  margin-left: 0;
+  font-weight: bold;
+}
+li.board-data {
+  padding-left: 15px;
+  height: 35px;
+  padding-top: 2px;
+  clear: left;
+  border-bottom: 1px solid #000;
+}
+
+#arrivals h1, #departures h1 {
+  font-size: 36px;
+  text-transform: uppercase;
+  padding-top: 10px;
+  text-shadow: #000000 1px 1px 1px;
+}
+.solari-board-icon {
+  width: 33%;
+  height: 50px;
+  margin-top: 3px;
+  margin-right: 13px;
+  float: left;
+}
+#departures .solari-board-icon {
+  
+}
+#arrivals .solari-board-icon {
+  background: url(/images/clock-icon.png) #000000;
+}
+#next-due {
+  float: right;
+  margin-right: 15px;
+  margin-bottom: 5px;
+  padding: 5px;
+  background-color: #000;
+  text-align: center;
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.3);
+  -moz-box-shadow: 0 0 1px rgba(255, 255, 255, 0.3);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.3);
+}
+#next-due .inner {
+  position: relative;
+  background-color: #271800;
+  width: 105px;
+  height: 30px;
+}
+#next-due .overdue {
+  color: #FF1C27;
+}
+#next-due .soon {
+  color: #FFE500;
+}
+#next-due .later {
+  color: #87EA23;
+}
+#next-due p {
+  margin: 0 0 4px 4px;
+  text-transform: lowercase;
+}
+#next-due .clock {
+  font-family: "Kelly Slab", Lucida Grande, Lucida Console, Courier New;
+  font-size: 28px;
+  margin-left: 4px;
+  margin-right: 8px;
+}
+#next-due .today {
+  position: absolute;
+  font-family: Lucida Console, Courier New;
+  font-size: 12px;
+  font-weight: bold;
+  top: 5px;
+}
+.circle, .circle-on {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 2px;
+  margin-top: 5px;
+  background: rgba(250, 212, 17, 0.6);
+  border-radius: 8px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+}
+.circle-on {
+  background: #FFE500;
+}
+#last-updated {
+  margin: 6px 0 2px 4px;
+  height: 25px;
+  padding: 3px;
+  color: #999999;
+}
+.muted {
+  color: #707275;
+}
+.rounded {
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+div#ticker-data {
+  float: left;
+  display:none;
+}
+div#ticker {
+  display:none;
+}
+
+.solari_grid {
+  width: 1070px;
+}
+.column {
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  display: block;
+}
+.row {
+  width: 970px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.row .row {
+  margin: 0 -5px;
+  width: auto;
+}
+
+/* CSS for the clock */
+.clockContainer {
+	 font: bold 12px Arial, Helvetica, sans-serif;
+	 width: 30%;
+	 float: left;
+	 text-align: center;
+}
+
+.clockList { margin:0 auto; padding:0px; list-style:none; text-align:center; }
+.clockList li { display:inline; font-size:4em; text-align:center; font-family:'BebasNeueRegular', Arial, Helvetica, sans-serif; }
+
+#point { position:relative; padding-left:2px; padding-right:2px; }
+#ampm { font-size:2em; margin-left:2px; }
