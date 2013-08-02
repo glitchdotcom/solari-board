@@ -11,7 +11,7 @@ from fogbugz import FogBugz
 fb = FogBugz(fbsettings.URL, fbsettings.TOKEN)
 resp = fb.search(q='project:inbox area:* status:active due:today orderby:due',cols="dtDue,sTitle,sStatus")
 
-myList = [];
+myList = []
 
 for case in resp.cases:
 	date = datetime.strptime(case.dtdue.string, '%Y-%m-%dT%H:%M:%SZ').strftime('%m/%d/%Y')
@@ -21,12 +21,12 @@ for case in resp.cases:
 		status = 3
 	else:
 		status = 2
-	track =  random.randrange(0,100)
+	track = random.randrange(0,100)
 	myList.append({'sDate': date ,'sTime':time,'sDeparture':departure,'nStatus': 2,'nTrack':track, 'bLight':False})
 
 #turn on the top light
 try:
-	myList[0]['bLight'] = True;
+	myList[0]['bLight'] = True
 except:
 	pass
 
