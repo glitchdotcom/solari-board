@@ -1,11 +1,20 @@
 #!C:\Python27\python.exe 
 # -*- coding: UTF-8 -*-
 
-from fogbugz import FogBugz
-from datetime import datetime, timedelta
-import fbsettings
-import urllib2, cgi, sys, os, string, io, json, time, random
+import cgi
 import cgitb
+import io
+import json
+import os
+import random
+import string
+import sys
+import time
+import urllib2
+from datetime import datetime, timedelta
+
+import fbsettings
+from fogbugz import FogBugz
 
 fb = FogBugz(fbsettings.URL, fbsettings.TOKEN)
 resp = fb.search(q='project:inbox area:* status:active due:today orderby:due',cols="dtDue,sTitle,sStatus")
