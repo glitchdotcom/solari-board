@@ -58,6 +58,6 @@ Currently, Google Chrome and Internet Explorer are the only supported browsers. 
 ![FogBugz Solari Board](https://trello-attachments.s3.amazonaws.com/51bf2a13808218916c006928/51f02c885eee4b1708001f67/e8996467a3ffff8fb2cceb3a87f88d18/fogbugzEdition.PNG)
 
 ##Copyright
-Copyright 2013 Fog Creek Software, Inc. All rights reserved.
+Copyright © 2013 Fog Creek Software, Inc. All rights reserved.
 ###Licensing
 The Solari Board is licensed under the [MIT](http://opensource.org/licenses/mit-license.php) license.

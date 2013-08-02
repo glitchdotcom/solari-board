@@ -9,7 +9,8 @@
  * http://www.datejs.com/ 
  *
  * 
- * Copyright 2013 Fog Creek Software, Inc. All rights reserved.
+ * Copyright © 2013 Fog Creek Software, Inc. All rights reserved.
+ *
  * Released under the MIT license
  *
  * INSTRUCTIONS:
