@@ -1,4 +1,4 @@
-#!C:\Python27\python.exe 
+#!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
 import cgi
