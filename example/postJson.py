@@ -20,10 +20,6 @@ def cgi():
         date = datetime.strptime(case.dtdue.string, '%Y-%m-%dT%H:%M:%SZ').strftime('%m/%d/%Y')
         time = case.dtdue.string[11:16]
         departure = case.stitle.string.encode('UTF-8').replace('\"', '')
-        if (datetime.strptime(case.dtdue.string, '%Y-%m-%dT%H:%M:%SZ') - datetime.now()).days < 0:
-            status = 3
-        else:
-            status = 2
         track = random.randrange(0, 100)
         myList.append({'sDate': date,
                       'sTime': time,
