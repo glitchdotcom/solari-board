@@ -1,17 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-import cgi
-import cgitb
-import io
 import json
-import os
 import random
-import string
-import sys
 import time
-import urllib2
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import fbsettings
 from fogbugz import FogBugz
