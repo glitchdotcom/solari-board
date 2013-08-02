@@ -9,7 +9,8 @@ import fbsettings
 from fogbugz import FogBugz
 
 fb = FogBugz(fbsettings.URL, fbsettings.TOKEN)
-resp = fb.search(q='project:inbox area:* status:active due:today orderby:due',cols="dtDue,sTitle,sStatus")
+resp = fb.search(q='project:inbox area:* status:active due:today orderby:due',
+                 cols="dtDue,sTitle,sStatus")
 
 myList = []
 
