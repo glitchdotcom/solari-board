@@ -205,7 +205,7 @@ function NextDue(id, time, offset, status) {
     $(id + ' .today').html(offset);
     $(id + ' .clock').html(time);
     $(id + ' .inner').attr('class', 'inner'); // get rid of any existing classes
-    $(id + ' .inner').addClass(NextDueStatus[status]); // add the appropriate class based on status
+    $(id + ' .inner').addClass(solariData[0] === EMPTY_ROW ? "later" : NextDueStatus[status]); // add the appropriate class based on status. If no data, green.
 }
 
 function UpdateSolariRow(row, current_row, new_row) {
@@ -370,7 +370,7 @@ function updateSolariBoard() {
 				nOffset += hrsDelta < 0 ? -1 : 0; // if the time difference is negative, which means we are within 24 hours of due, so reduce day offset by 1
 				if (nOffset < 0)  
 					new_board[0].nStatus = 3; // if we've past the due date
-				else if(nOffset === 0 && hrsDelta < 2 && hrsDelta > 0 ){
+				else if(nOffset === 0 && hrsDelta < 2 && hrsDelta >= 0 ){
 					 new_board[0].nStatus =1; //due within 2 hours
 				}
 				else{
