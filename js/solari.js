@@ -361,15 +361,12 @@ function updateSolariBoard() {
 		var next_due_row = solariData[i];
 		var time = next_due_row.sTime;
 		var timeDelta = Date.parse(next_due_row.sDate).getTime() - new Date().getTime();
-		var nOffset = Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide my miliseconds per day
-		// var nOffset = Date.parse(next_due_row.sDate).getDate() - new Date().getDate(); //number of days until due
+		var nOffset = Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide my miliseconds per day		
 		var offset = (nOffset == 0 ? "" : nOffset.toString() + "d"); //hide if next due is today
-		
 		if(status_override){
 			if (time){
 				var hrsDelta = Number(time.substring(0,2)) - new Date().getHours();
-				if (hrsDelta < 0)
-					nOffset -=1; // if the time difference is negative, which means we are within 24 hours of due, so reduce day offset by 1
+				nOffset += hrsDelta < 0 ? -1 : 0; // if the time difference is negative, which means we are within 24 hours of due, so reduce day offset by 1
 				if (nOffset < 0)  
 					new_board[0].nStatus = 3; // if we've past the due date
 				else if(nOffset === 0 && hrsDelta < 2 && hrsDelta > 0 ){
