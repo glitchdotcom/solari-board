@@ -37,6 +37,7 @@ The solari board assumes a json structure in the following format:
 		</audio>
 
 - Add the following script to your webpage's head:
+
         <script>
 	        $(document).ready(function() {
                 //remove the div parameter to append directly to body
