@@ -57,7 +57,7 @@ Currently, Google Chrome and Internet Explorer are the only supported browsers. 
 - The sDate field takes any [date.js](https://code.google.com/p/datejs/wiki/APIDocumentation#parse) parsable string (e.g. "today", "next monday")
 - The included example is a python script that will connect to a FogBugz installation through the [xml api](https://developers.fogbugz.com/default.asp?W199). Just place all files and folders onto a python enabled server (you may need to edit the first line of postJson.py to point to your own python installation). To use your own, edit fbsettings.py with your URL and[ token](http://fogbugz.stackexchange.com/questions/900/how-do-i-get-an-xml-api-token)
 
-![FogBugz Solari Board](https://trello-attachments.s3.amazonaws.com/51bf2a13808218916c006928/51f02c885eee4b1708001f67/e8996467a3ffff8fb2cceb3a87f88d18/fogbugzEdition.PNG)
+![FogBugz Solari Board](https://trello-attachments.s3.amazonaws.com/51bf2a13808218916c006928/51f02c885eee4b1708001f67/1b1ee7b798d88a6c39cf320d28146b36/fogbgzedition.PNG)
 
 ##Copyright
 Copyright © 2013 Fog Creek Software, Inc. All rights reserved.
