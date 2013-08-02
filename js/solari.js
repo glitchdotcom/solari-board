@@ -247,7 +247,7 @@ function SpinChars(rate, selector_prefix, max_boxes, current_text, new_text) {
 function SpinImage(rate, selector, from_pos, to_pos) {
     var final_pos = '';
     if (from_pos > to_pos) {
-        var num_spins = (((LAST_PRODUCT - from_pos) + to_pos) * IMAGE_FACTOR);
+        var num_spins = (((LAST_STATUS - from_pos) + to_pos) * IMAGE_FACTOR);
         final_pos = ((IMAGE_HEIGHT * to_pos) * IMAGE_FACTOR) * -1;
     } else {
         var num_spins = ((to_pos - from_pos) * IMAGE_FACTOR);
@@ -379,7 +379,7 @@ function updateSolariBoard() {
 					 new_board[0].nStatus =1; //due within 2 hours
 				}
 				else{
-					status = failboard ? 1 : 2;
+					new_board[0].nStatus = failboard ? 1 : 2;
 				}
 			}
 		}
