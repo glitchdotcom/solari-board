@@ -1,4 +1,6 @@
 #Solari Board
+![](https://trello-attachments.s3.amazonaws.com/51bf2a13808218916c006928/51f02c885eee4b1708001f67/2c081fd8d5fcf4cb505392784667372e/genericBoard.PNG)
+
 
 Fogcreek has used its [Big Board](http://blog.fogcreek.com/big-board-having-fun-with-data/) for close to three years...and now you can have your own!
 
@@ -12,7 +14,6 @@ The solari board assumes a json structure in the following format:
 	    {'sDate':'July 8th, 2013','sTime':'16:30','sDeparture':'baz@example.com','nStatus':2,'nTrack':23, 'fLight':false}
 	]		
 
-![](https://trello-attachments.s3.amazonaws.com/51bf2a13808218916c006928/51f02c885eee4b1708001f67/2c081fd8d5fcf4cb505392784667372e/genericBoard.PNG)
 
 #How do I use it?
 1. Include the following lines in your html:
@@ -45,16 +46,16 @@ The solari board assumes a json structure in the following format:
 	        });
        </script>
 
-- point the board to the script that will feed it json
+- Point the board to the script that will feed it json
 
         $.post('../example/postJson.py', //replace this with your own script   
 
 Currently, Google Chrome and Internet Explorer are the only supported browsers. This is due to an issue in animating the css property 'backgroundPositionY' on other browsers.
 
 ##Additional Configuration and Example
-- toggle "status_override" to have the board automatically change the status column using time and date due.
-- the sDate field takes any [date.js](https://code.google.com/p/datejs/wiki/APIDocumentation#parse) parsable string
-- the included example is a python script that will get connect to a FogBugz installation through the [xml ap](https://developers.fogbugz.com/default.asp?W199). Just place all files and folders onto a python enabled server (you may need to edit the first line of postJson.py to point to your own python installation).
+- Toggle "status_override" in solari.js to have the board automatically change the status column using time and date due.
+- The sDate field takes any [date.js](https://code.google.com/p/datejs/wiki/APIDocumentation#parse) parsable string (e.g. "today", "next monday")
+- The included example is a python script that will connect to a FogBugz installation through the [xml api](https://developers.fogbugz.com/default.asp?W199). Just place all files and folders onto a python enabled server (you may need to edit the first line of postJson.py to point to your own python installation). To use your own, edit fbsettings.py with your URL and[ token](http://fogbugz.stackexchange.com/questions/900/how-do-i-get-an-xml-api-token)
 
 ![FogBugz Solari Board](https://trello-attachments.s3.amazonaws.com/51bf2a13808218916c006928/51f02c885eee4b1708001f67/e8996467a3ffff8fb2cceb3a87f88d18/fogbugzEdition.PNG)
 
