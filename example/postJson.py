@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
+from __future__ import print_function
+
 import json
 import random
+import sys
 from datetime import datetime
 
 import fbsettings
@@ -34,9 +37,8 @@ def cgi():
     except:
         pass
 
-    print "Content-Type: application/json"
-    print
-    print json.dumps(cases)
+    print("Content-Type: application/json", end='\n\n')
+    json.dump(cases, sys.stdout)
 
 if __name__ == '__main__':
     cgi()
