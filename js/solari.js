@@ -39,6 +39,7 @@ var IMAGE_FACTOR = 2	; // every N picture in the letter image is a "real" image 
 var DEPARTURE_BOXES = 25; // number of letter boxes displayed in the departure column
 var TIME_BOXES = 4; // number of letter boxes displayed in the time column
 var TRACK_BOXES = 2; // number of letter boxes displayed in the track column
+var REFRESH_TIME = 60; //refresh time in seconds
 var EMPTY_ROW = {
     "sTime": "",
     "sDeparture": "",
@@ -197,7 +198,7 @@ function addSolariBoard(divSelector) {
         }
     }
     solari_setup_done = 1;
-	window.setInterval(updateSolariBoard(), 1000 * 60);
+	window.setInterval(updateSolariBoard(), 1000 * REFRESH_TIME);
 }
 
 function NextDue(id, time, offset, status) {
