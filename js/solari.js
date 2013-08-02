@@ -197,12 +197,10 @@ function addSolariBoard(divSelector) {
         }
     }
     solari_setup_done = 1;
-	console.log("Done with Setup");
 	window.setInterval(updateSolariBoard(), 1000 * 60);
 }
 
 function NextDue(id, time, offset, status) {
-	console.log(id, time, offset, status);
     $(id + ' .today').html(offset);
     $(id + ' .clock').html(time);
     $(id + ' .inner').attr('class', 'inner'); // get rid of any existing classes
@@ -321,7 +319,6 @@ function updateSolariBoard() {
         function (data) {
             if (data != null) {
                 solariData = data.slice(0);
-                console.log(data);
 				failboard = false;
                 dataSync = false;
             }
@@ -344,7 +341,6 @@ function updateSolariBoard() {
 	
 	try{ 
 		if (solariData.length == 0){
-			console.log("No Data!")
 			return;	
 		}
 	}
