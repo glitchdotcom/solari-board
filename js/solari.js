@@ -321,7 +321,7 @@ function updateSolariBoard() {
     $.post('../example/postJson.py', //replace this with your own script
             function (data) {
                 if (data !== null) {
-                    solariData = data['solariBoard'].slice(0);
+                    solariData = data.slice(0);
                     failboard = false;
                 }
             }, "json").fail(function () {
