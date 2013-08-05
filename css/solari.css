@@ -92,33 +92,33 @@ h1 {
 }
 @font-face {
   font-family: DS-DigitalNormal;
-  src: url(fonts/ds-digi-webfont.eot);
+  src: url(../fonts/ds-digi-webfont.eot);
   src: local(?),
-    url(fonts/ds-digi-webfont.woff) format(woff),
-    url(fonts/ds-digi-webfont.ttf) format(truetype),
-    url(fonts/ds-digi-webfont.svg#webfontvETSXQKi) format(svg);
+    url(../fonts/ds-digi-webfont.woff) format(woff),
+    url(../fonts/ds-digi-webfont.ttf) format(truetype),
+    url(../fonts/ds-digi-webfont.svg#webfontvETSXQKi) format(svg);
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {x	
-  src: url(fonts/rabiohead-webfont.eot);
+  src: url(../fonts/rabiohead-webfont.eot);
   src: local(?),
-    url(fonts/rabiohead-webfont.woff) format(woff),
-    url(fonts/rabiohead-webfont.ttf) format(truetype),
-    url(fonts/rabiohead-webfont.svg#webfontmxfBBRNq) format(svg);
+    url(../fonts/rabiohead-webfont.woff) format(woff),
+    url(../fonts/rabiohead-webfont.ttf) format(truetype),
+    url(../fonts/rabiohead-webfont.svg#webfontmxfBBRNq) format(svg);
   font-weight: normal;
   font-style: normal;
 }
 .panel {
-  background: url("images/panel-bg.png") #27282c;
+  background: url("../images/panel-bg.png") #27282c;
   margin: 0 0 10px 0;
   padding: 10px;
   border-top: 1px solid #46494a;
   text-shadow: #000000 1px 1px 1px;
 }
 .solari-board-columns, .solari-board-header, .solari-board-rows {
-  background: url("images/train-panel-bg.png") repeat #262829;
+  background: url("../images/train-panel-bg.png") repeat #262829;
   margin: 0 0 8px 0;
   box-shadow: 1px 1px 3px #000;
   -webkit-box-shadow: 1px 1px 3px #000;
@@ -182,7 +182,7 @@ li.alert {
   margin-right: 3px;
   height: 26px;
   width: 20px;
-  background: url(/images/letters-final.png) #000000 -3px 0;
+  background: url(../images/letters-final.png) #000000 -3px 0;
   overflow: hidden;
   border-left: 1px solid #404040;
   border-bottom: 1px solid #404040;
@@ -190,7 +190,7 @@ li.alert {
 .iconbox {
   height: 20px;
   width: 80px;
-  background: url(/images/trainrowbg.png) repeat-x center center #000000;
+  background: url(../images/trainrowbg.png) repeat-x center center #000000;
   padding: 3px 3px;
   border-left: 1px solid #404040;
   border-bottom: 1px solid #404040;
@@ -198,13 +198,13 @@ li.alert {
 .icon {
   height: 20px;
   width: 80px;
-  background: url(/images/product-logos-blur-again-again.png) #000000 0 0;
+  background: url(../images/product-logos-blur-again-again.png) #000000 0 0;
   overflow: hidden;
 }
 .status-icon {
   height: 20px;
   width: 80px;
-  background: url(/images/status-blur.png) #000000 0 0;
+  background: url(../images/status-blur.png) #000000 0 0;
   overflow: hidden;
 }
 .dot {
@@ -240,7 +240,7 @@ li.board-data {
   
 }
 #arrivals .solari-board-icon {
-  background: url(/images/clock-icon.png) #000000;
+  background: url(../images/clock-icon.png) #000000;
 }
 #next-due {
   float: right;
