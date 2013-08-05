@@ -14,8 +14,8 @@ following properties:
     like `yesterday` or `today`.
   * `sDeparture`: an arbitrary string; on our board, it's the email address of
     the support technition who has the support call.
-  * `nStatus`: allows you to set the status to either "All Aboard" (`nStatus
-    = 1`) or "On Time" (`nStatus = 2`).
+  * `nStatus`: allows you to set the status to one of four statuses: "All Aboard" (`nStatus
+    = 1`), "On Time" (`nStatus = 2`), "Delayed" (`nStatus = 3`) or "Departed"(`nStatus = 4`).
   * `nTrack`: an arbitrary integer between 0 and 99; we use it to indicate
     which extension the call should be on, but you can use it for whatever
     purpose you want.
