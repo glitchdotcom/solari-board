@@ -1,6 +1,6 @@
 /*!
  * Solari Board jQuery App
- * http:/github _____
+ * http://github.com/FogCreek/solari-board
  *
  * Uses jquery.transit.js:
  * http://ricostacruz.com/jquery.transit/
@@ -8,7 +8,7 @@
  * date.js:
  * http://www.datejs.com/ 
  *
- * 
+ *
  * Copyright © 2013 Fog Creek Software, Inc. All rights reserved.
  *
  * Released under the MIT license
@@ -16,13 +16,13 @@
  * INSTRUCTIONS:
  * The solari board app takes an arbitrary json payload from a post command to target url
  *  Currently, the solari board assumes a json structure in the following format:
- *	[
- *	    {'sDate':'today','sTime':'13:30','sDeparture':'foo@example.com','nStatus':1,'nTrack':17, 'fLight':true},
- *	    {'sDate':'yesterday','sTime':'16:00','sDeparture':'bar@example.com','nStatus':2,'nTrack':19, 'fLight':false},
- *	    {'sDate':'July 8th, 2013','sTime':'16:30','sDeparture':'baz@example.com','nStatus':2,'nTrack':23, 'fLight':false}
- *	]	
+ *    [
+ *        {'sDate':'today','sTime':'13:30','sDeparture':'foo@example.com','nStatus':1,'nTrack':17, 'fLight':true},
+ *        {'sDate':'yesterday','sTime':'16:00','sDeparture':'bar@example.com','nStatus':2,'nTrack':19, 'fLight':false},
+ *        {'sDate':'July 8th, 2013','sTime':'16:30','sDeparture':'baz@example.com','nStatus':2,'nTrack':23, 'fLight':false}
+ *    ]
  *
- *  The nStatus field is only used if status_override = false;
+ *  The nStatus field is only used if status_override = false.
  */
 
 // some constants and enums
