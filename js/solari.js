@@ -226,16 +226,17 @@ function UpdateSolariRow(row, current_row, new_row) {
 
 function SpinChars(rate, selector_prefix, max_boxes, current_text, new_text) {
     //populate each box
+    var num_spins = 0;
     for (var box = 0; box < max_boxes; box++) {
         // get the to and from character codes for this box
         var to_char_code = ToUpper(((new_text.length > box) ? new_text.charCodeAt(box) : 32));
         var from_char_code = ToUpper(((current_text.length > box) ? current_text.charCodeAt(box) : 32));
         var final_pos = '';
         if (from_char_code > to_char_code) {
-            var num_spins = ((LAST_CHAR_CODE - from_char_code) + (to_char_code - FIRST_CHAR_CODE)) * CHAR_FACTOR;
+            num_spins = ((LAST_CHAR_CODE - from_char_code) + (to_char_code - FIRST_CHAR_CODE)) * CHAR_FACTOR;
             final_pos = ((LETTER_HEIGHT * (to_char_code - FIRST_CHAR_CODE)) * CHAR_FACTOR) * -1;
         } else {
-            var num_spins = (to_char_code - from_char_code) * CHAR_FACTOR;
+            num_spins = (to_char_code - from_char_code) * CHAR_FACTOR;
         }
         var selector = selector_prefix + 'box' + box; // add the box part
 
@@ -245,16 +246,20 @@ function SpinChars(rate, selector_prefix, max_boxes, current_text, new_text) {
 
 function SpinImage(rate, selector, from_pos, to_pos) {
     var final_pos = '';
+    var num_spins = 0;
+
     if (from_pos > to_pos) {
-        var num_spins = (((LAST_STATUS - from_pos) + to_pos) * IMAGE_FACTOR);
+        num_spins = (((LAST_STATUS - from_pos) + to_pos) * IMAGE_FACTOR);
         final_pos = ((IMAGE_HEIGHT * to_pos) * IMAGE_FACTOR) * -1;
     } else {
-        var num_spins = ((to_pos - from_pos) * IMAGE_FACTOR);
+        num_spins = ((to_pos - from_pos) * IMAGE_FACTOR);
     }
-    if(from_pos === 4 && to_pos === 0)
-        num_spins = 8;
 
-    //unless we're not moving at all, make the image go 'round 8 more times that it needs to, otherwise it finishes too fast. 
+    if (from_pos === 4 && to_pos === 0) {
+        num_spins = 8;
+    }
+
+    //unless we're not moving at all, make the image go 'round 8 more times that it needs to, otherwise it finishes too fast.
     if (num_spins !== 0) {
         $('audio#solari-audio')[0].play();
         num_spins +=80;
@@ -265,22 +270,18 @@ function SpinImage(rate, selector, from_pos, to_pos) {
 function SpinIt(selector, num_spins, rate, pixel_distance, final_pos) {
     for (var ii = 0; ii < num_spins; ii++) {
         $(selector).transition(
-                {backgroundPositionY: '-=' + (pixel_distance * 2)}, {
-                                                                        duration: 1,
-            easing: "linear"
-                                                                    }
-                );
+            {backgroundPositionY: '-=' + (pixel_distance * 2)},
+            {duration: 1, easing: "linear"}
+        );
         $(selector).transition(
-                {backgroundPositionY: '+=1'}, {
-                                                  duration: rate, 
-            easing: "linear"
-                                              }
-                );
+            {backgroundPositionY: '+=1'},
+            {duration: rate, easing: "linear"}
+        );
         // on the very last iteration, use a call back to set the background position to the "real" position
         var f = function () {};
         if ((final_pos !== '') && (ii === (num_spins-1))) {
             f = function() {
-                $(selector).css('backgroundPositionY', final_pos); 
+                $(selector).css('backgroundPositionY', final_pos);
             };
         }
         $(selector).animate({backgroundPositionY: '+=' + (pixel_distance - 1)}, 1, f);
@@ -360,7 +361,7 @@ function updateSolariBoard() {
                 break;
         }
         var next_due_row = solariData[i];
-        var time = next_due_row.sTime;
+        time = next_due_row.sTime;
         var timeDelta = Date.parse(next_due_row.sDate).getTime() - new Date().getTime();
         var nOffset = Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide my miliseconds per day		
         var offset = (nOffset === 0 ? "" : nOffset.toString() + "d"); //hide if next due is today
