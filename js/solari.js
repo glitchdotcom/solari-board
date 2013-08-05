@@ -81,7 +81,7 @@ function ToUpper(code) {
 }
 
 //constructs the solariBoard within the given div. If no parameter is given, adds the board to "body"
-function addSolariBoard(){
+function addSolariBoard() {
     $("body").append("<div id=\"solariBoardDiv\"></div>");
     addSolariBoard("solariBoardDiv");
 }
@@ -95,7 +95,7 @@ function addSolariBoard(divSelector) {
             "<div id=\"solari\" class=\"panel\">" +
             "<div id=\"departures\">" +
             "<header class=\"solari-board-header rounded\"> " +
-            "<div class=\"solari-board-icon\"> </div>" +									
+            "<div class=\"solari-board-icon\"> </div>" +
             "<div class=\"clockContainer\">" +
             "<ul class=\"clockList\">" +
             "<li id=\"hours\">12</li>" +
@@ -314,6 +314,7 @@ function GetFailBoard() {
     }
     return board;
 }
+
 function updateSolariBoard() {
     dataSync = true;
     $.post('../example/postJson.py', //replace this with your own script
@@ -336,21 +337,21 @@ function updateSolariBoard() {
 
 
     if (!failboard && typeof solariData === 'undefined') {
-        window.setTimeout(updateSolariBoard,1000);
+        window.setTimeout(updateSolariBoard, 1000);
         return;
     }
 
     try {
-        if (solariData.length === 0){
+        if (solariData.length === 0) {
             clearBoard();
             return;
         }
     }
-    catch(err){}
+    catch(err) {}
 
     //Format the "Next Due" box
     $("#arrivals .solari-board-header, #arrivals .solari-board-columns").show(1000);
-    if (!failboard){
+    if (!failboard) {
         new_board = solariData;
         var i;
         //the next due box should display the next available time, which may not be from the first case
@@ -363,18 +364,17 @@ function updateSolariBoard() {
         var next_due_row = solariData[i];
         time = next_due_row.sTime;
         var timeDelta = Date.parse(next_due_row.sDate).getTime() - new Date().getTime();
-        var nOffset = Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide my miliseconds per day		
+        var nOffset = Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide my miliseconds per day
         var offset = (nOffset === 0 ? "" : nOffset.toString() + "d"); //hide if next due is today
-        if(status_override){
-            if (time){
+        if(status_override) {
+            if (time) {
                 var hrsDelta = Number(time.substring(0,2)) - new Date().getHours();
                 nOffset += hrsDelta < 0 ? -1 : 0; // if the time difference is negative, which means we are within 24 hours of due, so reduce day offset by 1
-                if (nOffset < 0)
+                if (nOffset < 0) {
                     new_board[0].nStatus = 3; // if we've past the due date
-                else if (nOffset === 0 && hrsDelta < 2 && hrsDelta >= 0 ){
+                } else if (nOffset === 0 && hrsDelta < 2 && hrsDelta >= 0 ) {
                     new_board[0].nStatus =1; //due within 2 hours
-                }
-                else{
+                } else {
                     new_board[0].nStatus = failboard ? 1 : 2;
                 }
             }
