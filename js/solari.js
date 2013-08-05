@@ -81,14 +81,16 @@ function ToUpper(code) {
 }
 
 //constructs the solariBoard within the given div. If no parameter is given, adds the board to "body"
-function addSolariBoard() {
-    $("body").append("<div id=\"solariBoardDiv\"></div>");
-    addSolariBoard("solariBoardDiv");
-}
 function addSolariBoard(divSelector) {
     if (solari_setup_done === 1) {
         return;
     }
+    
+    if (arguements.length === 0) {
+        $("body").append("<div id=\"solariBoardDiv\"></div>");
+        divSelector = "#solariBoardDiv";
+    }
+        
     //The html structure of the solari board. This implementation is pretty ugly, but is a simple, single-append solution. 
     var $solari = $("<div class=\"column solari_grid\">" +
             "<a id='show-solari' href=\"index.html\" onclick=\"localStorage['StopSolari']=0\">Show Solari Board</a>" +
@@ -284,7 +286,7 @@ function SpinIt(selector, num_spins, rate, pixel_distance, final_pos) {
                 $(selector).css('backgroundPositionY', final_pos);
             };
         }
-        $(selector).animate({backgroundPositionY: '+=' + (pixel_distance - 1)}, 1, f);
+        $(selector).transition({backgroundPositionY: '+=' + (pixel_distance - 1)}, 1, f);
     }
 }
 
@@ -364,7 +366,7 @@ function updateSolariBoard() {
         var next_due_row = solariData[i];
         time = next_due_row.sTime;
         var timeDelta = Date.parse(next_due_row.sDate).getTime() - new Date().getTime();
-        var nOffset = Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide my miliseconds per day
+        var nOffset = Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide by miliseconds per day
         var offset = (nOffset === 0 ? "" : nOffset.toString() + "d"); //hide if next due is today
         if(status_override) {
             if (time) {
