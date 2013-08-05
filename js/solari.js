@@ -110,7 +110,7 @@ function addSolariBoard(divSelector) {
             "<span class=\"clock\">00:00</span>" +
             "<span class=\"today\"></span>" +
             "</div>" +
-            "</div>" +				
+            "</div>" +
             "</header>" +
             "<ul class=\"solari-board-columns rounded\">" +
             "<li class=\"time\">Time</li>" +
@@ -124,31 +124,30 @@ function addSolariBoard(divSelector) {
             "<div id=\"last-updated\">Last updated: <span>n/a</span></div>" +
             "</div>" +
             "</div>" +
-            "</div>"			
-            ).html();
+            "</div>").html();
     //add the board html
-    $(divSelector).append($solari)
+    $(divSelector).append($solari);
 
-        //set up clock
-        setInterval( function() {
-            var date = new Date();
-            // Convert to 12 hour format
-            var hours = date.getHours();
-            $("#hours").html( hours === 0 ? 12 : ( hours > 12 ? hours-12 : hours ) );
-            // Add a leading zero to the minutes value and am/pm
-            var minutes = date.getMinutes();
-            $("#min").html(( minutes < 10 ? "0" : "" ) + minutes );
+    //set up clock
+    setInterval(function() {
+        var date = new Date();
+        // Convert to 12 hour format
+        var hours = date.getHours();
+        $("#hours").html(hours === 0 ? 12 : ( hours > 12 ? hours-12 : hours ));
+        // Add a leading zero to the minutes value and am/pm
+        var minutes = date.getMinutes();
+        $("#min").html((minutes < 10 ? "0" : "") + minutes);
 
-            // Set am/pm
-            $("#ampm").html( hours < 12 ? " am" : " pm" );
-        },15000); // every 15 seconds is plenty accurate
+        // Set am/pm
+        $("#ampm").html(hours < 12 ? " am" : " pm");
+    }, 15000); // every 15 seconds is plenty accurate
 
 
     // show the solari board.
     if (!localStorage['StopSolari'] || localStorage['StopSolari'] === '0') {
         $('#solari').show();
         $('#show-solari').hide();
-    } else {	
+    } else {
         $('#solari').hide();
         $('#show-solari').show();
         return;
@@ -264,10 +263,10 @@ function SpinImage(rate, selector, from_pos, to_pos) {
 }
 
 function SpinIt(selector, num_spins, rate, pixel_distance, final_pos) {
-    for (var ii = 0; ii < num_spins; ii++) {	
+    for (var ii = 0; ii < num_spins; ii++) {
         $(selector).transition(
                 {backgroundPositionY: '-=' + (pixel_distance * 2)}, {
-                                                                        duration: 1, 
+                                                                        duration: 1,
             easing: "linear"
                                                                     }
                 );
@@ -280,11 +279,11 @@ function SpinIt(selector, num_spins, rate, pixel_distance, final_pos) {
         // on the very last iteration, use a call back to set the background position to the "real" position
         var f = function () {};
         if ((final_pos !== '') && (ii === (num_spins-1))) {
-            f = function() { 
+            f = function() {
                 $(selector).css('backgroundPositionY', final_pos); 
             };
         }
-        $(selector).animate({backgroundPositionY: '+=' + (pixel_distance - 1)}, 1, f);	  
+        $(selector).animate({backgroundPositionY: '+=' + (pixel_distance - 1)}, 1, f);
     }
 }
 
@@ -310,13 +309,13 @@ function GetFailBoard() {
             "sDeparture": fail_whale[row],
             "nStatus": 0,
             "nTrack": 0
-        }
+        };
     }
     return board;
 }
 function updateSolariBoard() {
     dataSync = true;
-    $.post('../example/postJson.py', //replace this with your own script   
+    $.post('../example/postJson.py', //replace this with your own script
             function (data) {
                 if (data !== null) {
                     solariData = data.slice(0);
@@ -331,19 +330,19 @@ function updateSolariBoard() {
     // update last refresh time text
     $('#last-updated span').fadeOut("slow", function() {
         var now = new Date();
-        $('#last-updated span').html(now.toLocaleString())
+        $('#last-updated span').html(now.toLocaleString());
     }).fadeIn("slow");
 
 
-    if (!failboard && typeof solariData === 'undefined'){
+    if (!failboard && typeof solariData === 'undefined') {
         window.setTimeout(updateSolariBoard,1000);
         return;
     }
 
-    try{ 
+    try {
         if (solariData.length === 0){
             clearBoard();
-            return;	
+            return;
         }
     }
     catch(err){}
@@ -355,10 +354,10 @@ function updateSolariBoard() {
         var i;
         //the next due box should display the next available time, which may not be from the first case
         var time;
-        for (i=0; i< 8; i++){
-            time = solariData[i].sTime
-                if (typeof time !== "undefined")
-                    break;		
+        for (i=0; i< 8; i++) {
+            time = solariData[i].sTime;
+            if (typeof time !== "undefined")
+                break;
         }
         var next_due_row = solariData[i];
         var time = next_due_row.sTime;
@@ -382,9 +381,7 @@ function updateSolariBoard() {
         var status = next_due_row.nStatus;
         time = (time === "") ? "00:00" : time;
         NextDue("#next-due", time, offset, status);
-    }
-
-    else{
+    } else {
         //failed to get data
         new_board = GetFailBoard();
         $("ul.solari-board-columns li.departure").text("FAIL WHALE");
