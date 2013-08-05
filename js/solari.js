@@ -15,7 +15,7 @@
  *
  * INSTRUCTIONS:
  * The solari board app takes an arbitrary json payload from a post command to target url
- *  Currently, the solari board assumes a json structure in the following format:
+ * Currently, the solari board assumes a json structure in the following format:
  *    [
  *        {'sDate':'today','sTime':'13:30','sDeparture':'foo@example.com','nStatus':1,'nTrack':17, 'fLight':true},
  *        {'sDate':'yesterday','sTime':'16:00','sDeparture':'bar@example.com','nStatus':2,'nTrack':19, 'fLight':false},
@@ -86,8 +86,8 @@ function addSolariBoard(divSelector) {
         return;
     }
     
-    if (arguements.length === 0) {
-        $("body").append("<div id=\"solariBoardDiv\"></div>");
+    if (arguments.length === 0) {
+        $("body").append("<div id=\"solariBoardDiv\" style=\"width:970px;margin:0 auto;overflow:hidden\"></div>");
         divSelector = "#solariBoardDiv";
     }
         
