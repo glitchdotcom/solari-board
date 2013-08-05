@@ -15,7 +15,7 @@ from fogbugz import FogBugz
 def cgi():
     fb = FogBugz(fbsettings.URL, fbsettings.TOKEN)
     resp = fb.search(q='project:inbox area:* status:active due:today orderby:due',
-                     cols="dtDue,sTitle,sStatus")
+                     cols="dtDue,sTitle")
 
     cases = []
 
@@ -24,10 +24,14 @@ def cgi():
         time = case.dtdue.string[11:16]
         departure = case.stitle.string.encode('UTF-8').replace('\"', '')
         track = random.randrange(0, 100)
+        if (datetime.strptime(case.dtdue.string, '%Y-%m-%dT%H:%M:%SZ') - datetime.now()).days < 0:
+           status = 3
+        else:
+           status = 2
         cases.append({'sDate': date,
                       'sTime': time,
                       'sDeparture': departure,
-                      'nStatus': 2,
+                      'nStatus': status,
                       'nTrack': track,
                       'bLight': False})
 
