@@ -49,7 +49,7 @@ var EMPTY_ROW = {
 };
 
 //if true, the status column will be handled automatically according to time and date. false will override status with
-var status_override = true
+var status_override = true;
 
 var Status = {
     "none": 0,
@@ -82,11 +82,11 @@ function ToUpper(code) {
 
 //constructs the solariBoard within the given div. If no parameter is given, adds the board to "body"
 function addSolariBoard(){
-	$("body").append("<div id=\"solariBoardDiv\"></div>")
-	addSolariBoard("solariBoardDiv")
+	$("body").append("<div id=\"solariBoardDiv\"></div>");
+	addSolariBoard("solariBoardDiv");
 }
 function addSolariBoard(divSelector) {
-    if (solari_setup_done == 1) {
+    if (solari_setup_done === 1) {
         return;
     }
 	//The html structure of the solari board. This implementation is pretty ugly, but is a simple, single-append solution. 
@@ -134,7 +134,7 @@ function addSolariBoard(divSelector) {
 			var date = new Date();
 			// Convert to 12 hour format
 			var hours = date.getHours();
-			$("#hours").html( hours == 0 ? 12 : ( hours > 12 ? hours-12 : hours ) );
+			$("#hours").html( hours === 0 ? 12 : ( hours > 12 ? hours-12 : hours ) );
 			// Add a leading zero to the minutes value and am/pm
 			var minutes = date.getMinutes();
 			$("#min").html(( minutes < 10 ? "0" : "" ) + minutes );
@@ -145,7 +145,7 @@ function addSolariBoard(divSelector) {
 		
 
     // show the solari board.
-    if (!localStorage['StopSolari'] || localStorage['StopSolari'] == '0') {
+    if (!localStorage['StopSolari'] || localStorage['StopSolari'] === '0') {
         $('#solari').show();
         $('#show-solari').hide();
     } else {	
@@ -172,7 +172,7 @@ function addSolariBoard(divSelector) {
         // initialize the board with default "empty" board data objects
         current_board[add_rows] = EMPTY_ROW;
         
-        if ($section == undefined) {
+        if ($section === undefined) {
             $section = $('#departures .solari-board-rows');
         }
         // add a row
@@ -182,7 +182,7 @@ function addSolariBoard(divSelector) {
         for (var add_time_col = 0; add_time_col < TIME_BOXES; add_time_col++) {
             $('#row' + add_rows + ' li.time').append('<div id=time-row' + add_rows + 'box' + add_time_col + ' class=letterbox></div>');
             // insert a dot after the second box
-            if (add_time_col == 1) {
+            if (add_time_col === 1) {
                 $('#row' + add_rows + ' li.time').append('<div class=dot>.</div>');
             }
         }
@@ -252,11 +252,11 @@ function SpinImage(rate, selector, from_pos, to_pos) {
     } else {
         var num_spins = ((to_pos - from_pos) * IMAGE_FACTOR);
     }
-	if(from_pos == 4 && to_pos == 0)
+	if(from_pos === 4 && to_pos === 0)
 		num_spins = 8;
 		
     //unless we're not moving at all, make the image go 'round 8 more times that it needs to, otherwise it finishes too fast. 
-   if (num_spins != 0) {
+   if (num_spins !== 0) {
 		$('audio#solari-audio')[0].play();
 		num_spins +=80;
     }
@@ -279,7 +279,7 @@ function SpinIt(selector, num_spins, rate, pixel_distance, final_pos) {
 		);
 	  // on the very last iteration, use a call back to set the background position to the "real" position
 	  var f = function () {};
-	  if ((final_pos !== '') && (ii == (num_spins-1))) {
+	  if ((final_pos !== '') && (ii === (num_spins-1))) {
 		f = function() { 
 		  $(selector).css('backgroundPositionY', final_pos); 
 		};
@@ -318,7 +318,7 @@ function updateSolariBoard() {
 	dataSync = true;
     $.post('../example/postJson.py', //replace this with your own script   
         function (data) {
-            if (data != null) {
+            if (data !== null) {
                 solariData = data.slice(0);
 				failboard = false;
                 dataSync = false;
@@ -341,7 +341,7 @@ function updateSolariBoard() {
 	}
 	
 	try{ 
-		if (solariData.length == 0){
+		if (solariData.length === 0){
 			clearBoard();
 			return;	
 		}
@@ -364,14 +364,14 @@ function updateSolariBoard() {
 		var time = next_due_row.sTime;
 		var timeDelta = Date.parse(next_due_row.sDate).getTime() - new Date().getTime();
 		var nOffset = Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide my miliseconds per day		
-		var offset = (nOffset == 0 ? "" : nOffset.toString() + "d"); //hide if next due is today
+		var offset = (nOffset === 0 ? "" : nOffset.toString() + "d"); //hide if next due is today
 		if(status_override){
 			if (time){
 				var hrsDelta = Number(time.substring(0,2)) - new Date().getHours();
 				nOffset += hrsDelta < 0 ? -1 : 0; // if the time difference is negative, which means we are within 24 hours of due, so reduce day offset by 1
-				if (nOffset < 0)  
+				if (nOffset < 0)
 					new_board[0].nStatus = 3; // if we've past the due date
-				else if(nOffset === 0 && hrsDelta < 2 && hrsDelta >= 0 ){
+				else if (nOffset === 0 && hrsDelta < 2 && hrsDelta >= 0 ){
 					 new_board[0].nStatus =1; //due within 2 hours
 				}
 				else{
@@ -381,7 +381,7 @@ function updateSolariBoard() {
 		}
 		var status = next_due_row.nStatus;
 		time = (time === "") ? "00:00" : time;
-		NextDue("#next-due", time, offset, status);		
+		NextDue("#next-due", time, offset, status);
 	}
 	
 	else{
@@ -393,7 +393,7 @@ function updateSolariBoard() {
 	
     // update each row on the board
 	for (var row = 0; row < BOARD_ROWS; row++) {
-		if ((new_board[row] == undefined)) {
+		if ((new_board[row] === undefined)) {
 			// make this an empty row
 			new_board[row] = EMPTY_ROW;
 		}
