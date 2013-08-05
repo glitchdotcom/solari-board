@@ -318,17 +318,14 @@ function GetFailBoard() {
 }
 
 function updateSolariBoard() {
-    dataSync = true;
     $.post('../example/postJson.py', //replace this with your own script
             function (data) {
                 if (data !== null) {
-                    solariData = data.slice(0);
+                    solariData = data['solariBoard'].slice(0);
                     failboard = false;
-                    dataSync = false;
                 }
             }, "json").fail(function () {
                 failboard = true;
-                dataSync = false;
             });
 
     // update last refresh time text
@@ -371,7 +368,7 @@ function updateSolariBoard() {
         if(status_override) {
             if (time) {
                 var hrsDelta = Number(time.substring(0,2)) - new Date().getHours();
-                nOffset += hrsDelta < 0 ? -1 : 0; // if the time difference is negative, which means we are within 24 hours of due, so reduce day offset by 1
+                nOffset += timeDelta < 0 ? -1 : 0; // if the time difference is negative, which means we are within 24 hours of due, so reduce day offset by 1
                 if (nOffset < 0) {
                     new_board[0].nStatus = 3; // if we've past the due date
                 } else if (nOffset === 0 && hrsDelta < 2 && hrsDelta >= 0 ) {

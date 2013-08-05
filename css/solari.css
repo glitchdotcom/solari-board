@@ -327,23 +327,11 @@ div#ticker {
   display:none;
 }
 
-.solari_grid {
-  width: 1070px;
-}
 .column {
   margin-left: auto;
   margin-right: auto;
   overflow: hidden;
   display: block;
-}
-.row {
-  width: 970px;
-  margin: 0 auto;
-  overflow: hidden;
-}
-.row .row {
-  margin: 0 -5px;
-  width: auto;
 }
 
 /* CSS for the clock */
