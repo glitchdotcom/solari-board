@@ -342,6 +342,7 @@ function updateSolariBoard() {
 	
 	try{ 
 		if (solariData.length == 0){
+			clearBoard();
 			return;	
 		}
 	}
@@ -412,5 +413,6 @@ function clearBoard() {
 	$(".track").children().stop(true, true);
     for (var r = 0; r < 8; r++) {
 		UpdateSolariRow(r, current_board[r], EMPTY_ROW);
+		current_board[r] = EMPTY_ROW;
     }
 }
