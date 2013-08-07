@@ -35,7 +35,7 @@ var FIRST_CHAR_CODE = 32; // the first ASCII character that is represented in th
 var LAST_CHAR_CODE = 96; // the last ASCII character that is represented in the letter image
 var CHAR_FACTOR = 2; // every N character in the letter image is a "real" character
 var IMAGE_HEIGHT = 20; // height of a single product or status image frame (in pixels)
-var IMAGE_FACTOR = 2	; // every N picture in the letter image is a "real" image (i.e., not an in-between frame)
+var IMAGE_FACTOR = 2; // every N picture in the letter image is a "real" image (i.e., not an in-between frame)
 var DEPARTURE_BOXES = 25; // number of letter boxes displayed in the departure column
 var TIME_BOXES = 4; // number of letter boxes displayed in the time column
 var TRACK_BOXES = 2; // number of letter boxes displayed in the track column
@@ -85,12 +85,12 @@ function addSolariBoard(divSelector) {
     if (solari_setup_done === 1) {
         return;
     }
-    
+   
     if (arguments.length === 0) {
         $("body").append("<div id=\"solariBoardDiv\" style=\"width:970px;margin:0 auto;overflow:hidden\"></div>");
         divSelector = "#solariBoardDiv";
     }
-        
+       
     //The html structure of the solari board. This implementation is pretty ugly, but is a simple, single-append solution. 
     var $solari = $("<div class=\"column solari_grid\">" +
             "<a id='show-solari' href=\"index.html\" onclick=\"localStorage['StopSolari']=0\">Show Solari Board</a>" +
@@ -131,11 +131,11 @@ function addSolariBoard(divSelector) {
     $(divSelector).append($solari);
 
     //set up clock
-    setInterval(function() {
+    setInterval(function () {
         var date = new Date();
         // Convert to 12 hour format
         var hours = date.getHours();
-        $("#hours").html(hours === 0 ? 12 : ( hours > 12 ? hours-12 : hours ));
+        $("#hours").html(hours === 0 ? 12 : (hours > 12 ? hours - 12 : hours));
         // Add a leading zero to the minutes value and am/pm
         var minutes = date.getMinutes();
         $("#min").html((minutes < 10 ? "0" : "") + minutes);
@@ -155,12 +155,12 @@ function addSolariBoard(divSelector) {
         return;
     }
 
-    $('li.track').click(function() {
+    $('li.track').click(function () {
         updateSolariBoard();
     });
 
     // we want people who don't care about the solari board to be able to hide it.
-    $('#next-due').click(function() {
+    $('#next-due').click(function () {
         localStorage['StopSolari'] = '1';
         $('#solari').hide();
         $('#show-solari').show();
