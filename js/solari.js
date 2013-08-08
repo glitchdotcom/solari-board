@@ -48,7 +48,7 @@ var EMPTY_ROW = {
     "nTrack" : 0
 };
 
-//if true, the status column will be handled automatically according to time and date. false will override status with
+//if true, the status column will be handled automatically according to time and date. false will override status with nStatus from payload
 var status_override = true;
 
 var Status = {
@@ -65,7 +65,7 @@ var solariTimeout;
 var solari_setup_done = 0;
 var failboard = false;
 
-// start with variable that will hold data, empty current and new boards
+// start with variable that will hold data, empty, current and new boards
 var solariData;
 var current_board = [];
 var new_board = [];
