@@ -70,6 +70,8 @@ var solariData;
 var current_board = [];
 var new_board = [];
 
+var postUrl='../example/postJson.py';
+
 //an attempt to reduce slowdown from animations
 jQuery.fx.interval = 20;
 
@@ -81,7 +83,9 @@ function ToUpper(code) {
 }
 
 //constructs the solariBoard within the given div. If no parameter is given, adds the board to "body"
-function addSolariBoard(divSelector) {
+function addSolariBoard(divSelector,url) {
+    postUrl=url || postUrl;
+    
     if (solari_setup_done === 1) {
         return;
     }
@@ -318,7 +322,7 @@ function GetFailBoard() {
 }
 
 function updateSolariBoard() {
-    $.post('../example/postJson.py', //replace this with your own script
+    $.post(postUrl,
             function (data) {
                 if (data !== null) {
                     solariData = data.slice(0);
