@@ -64,10 +64,18 @@
         ];
 
         $(document).ready(function() {
+            // You can also call new SolariBoard('#myDiv')
             window.solari = new SolariBoard();
+
+            // An example of how to update it
             window.solari.updateSolariBoard(data1);
             window.setTimeout(function(){window.solari.updateSolariBoard(data2);}, 15000);
             window.setTimeout(function(){window.solari.updateSolariBoard('fail');}, 25000);
+
+            // You can also do this
+            // $.post('postJson.py', function(data) {
+            //     window.solari.updateSolariBoard(data);
+            // });
         });
     </script>
 </head>
