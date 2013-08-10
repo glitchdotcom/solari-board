@@ -67,6 +67,7 @@
             window.solari = new SolariBoard();
             window.solari.updateSolariBoard(data1);
             window.setTimeout(function(){window.solari.updateSolariBoard(data2);}, 15000);
+            window.setTimeout(function(){window.solari.updateSolariBoard('fail');}, 25000);
         });
     </script>
 </head>

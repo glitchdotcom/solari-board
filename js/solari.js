@@ -312,7 +312,12 @@ function SolariBoard(divSelector) {
     }
 
     this.updateSolariBoard = function (data) {
-        solariData = data;
+        if (data == 'fail') {
+            failboard = true;
+        } else {
+            failboard = false;
+            solariData = data;
+        }
 
         // update last refresh time text
         $('#last-updated span').fadeOut("slow", function() {
@@ -320,15 +325,9 @@ function SolariBoard(divSelector) {
             $('#last-updated span').html(now.toLocaleString());
         }).fadeIn("slow");
 
-
-        if (!failboard && typeof solariData === 'undefined') {
-            window.setTimeout(this.updateSolariBoard, 1000);
-            return;
-        }
-
         try {
             if (solariData.length === 0) {
-                clearBoard();
+                this.clearBoard();
                 return;
             }
         }
@@ -338,6 +337,7 @@ function SolariBoard(divSelector) {
         $("#arrivals .solari-board-header, #arrivals .solari-board-columns").show(1000);
         if (!failboard) {
             new_board = solariData;
+            $("ul.solari-board-columns li.departure").text("Departure");
             var i;
             //the next due box should display the next available time, which may not be from the first case
             var time;
@@ -388,7 +388,7 @@ function SolariBoard(divSelector) {
         current_board = new_board.slice(0);
     };
 
-    function clearBoard() {
+    this.clearBoard = function () {
         //stop all animations
         $(".time").children().stop(true, true);
         $(".departure").children().stop(true, true);
