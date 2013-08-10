@@ -79,13 +79,17 @@ It's simple!
         <script>
             $(document).ready(function() {
                 //remove the div parameter to append directly to body
-                addSolariBoard("#myDIv");
+                window.solari = new SolariBoard("#myDiv");
             });
        </script>
 
-  3. Point the board to the script that will feed it json
+  3. Call `solari.updateSolariBoard(data)` at any time to update the board:
 
-        $.post('../example/postJson.py')  // replace this with your own script
+        $.post('../example/postJson.py',  // replace this with your own script
+               function(data) {
+                   window.solari.updateSolariBoard(data);
+               }
+        );
 
 Currently, Google Chrome and Internet Explorer are the only supported browsers.
 This is due to an issue in animating the CSS property `backgroundPositionY` on

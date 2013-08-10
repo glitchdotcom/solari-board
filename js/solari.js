@@ -25,6 +25,8 @@
  *  The nStatus field is only used if status_override = false.
  */
 
+function SolariBoard(divSelector) {
+
 // some constants and enums
 var RATE_VARIANCE = 8; // for determining random animation rate in milliseconds
 var RATE_BASE = 8; // for determining random animation rate in milliseconds  
@@ -62,7 +64,6 @@ var Status = {
 var LAST_STATUS = 4;
 var NextDueStatus = [null, "soon", "null", "overdue", null];
 var solariTimeout;
-var solari_setup_done = 0;
 var failboard = false;
 
 // start with variable that will hold data, empty, current and new boards
@@ -80,17 +81,12 @@ function ToUpper(code) {
     return code;
 }
 
-//constructs the solariBoard within the given div. If no parameter is given, adds the board to "body"
-function addSolariBoard(divSelector) {
-    if (solari_setup_done === 1) {
-        return;
-    }
-   
+    //constructs the solariBoard within the given div. If no parameter is given, adds the board to "body"
     if (arguments.length === 0) {
         $("body").append("<div id=\"solariBoardDiv\" style=\"width:970px;margin:0 auto;overflow:hidden\"></div>");
         divSelector = "#solariBoardDiv";
     }
-       
+
     //The html structure of the solari board. This implementation is pretty ugly, but is a simple, single-append solution. 
     var $solari = $("<div class=\"column solari_grid\">" +
             "<a id='show-solari' href=\"index.html\" onclick=\"localStorage['StopSolari']=0\">Show Solari Board</a>" +
@@ -156,7 +152,7 @@ function addSolariBoard(divSelector) {
     }
 
     $('li.track').click(function () {
-        updateSolariBoard();
+        this.updateSolariBoard();
     });
 
     // we want people who don't care about the solari board to be able to hide it.
@@ -198,9 +194,7 @@ function addSolariBoard(divSelector) {
             $('#row' + add_rows + ' li.track').append('<div id=track-row' + add_rows + 'box' + add_track_col + ' class=letterbox></div>');
         }
     }
-    solari_setup_done = 1;
-    window.setInterval(updateSolariBoard(), 1000 * REFRESH_TIME);
-}
+    window.setInterval(this.updateSolariBoard, 1000 * REFRESH_TIME);
 
 function NextDue(id, time, offset, status) {
     $(id + ' .today').html(offset);
@@ -317,16 +311,8 @@ function GetFailBoard() {
     return board;
 }
 
-function updateSolariBoard() {
-    $.post('../example/postJson.py', //replace this with your own script
-            function (data) {
-                if (data !== null) {
-                    solariData = data.slice(0);
-                    failboard = false;
-                }
-            }, "json").fail(function () {
-                failboard = true;
-            });
+this.updateSolariBoard = function (data) {
+    solariData = data;
 
     // update last refresh time text
     $('#last-updated span').fadeOut("slow", function() {
@@ -336,7 +322,7 @@ function updateSolariBoard() {
 
 
     if (!failboard && typeof solariData === 'undefined') {
-        window.setTimeout(updateSolariBoard, 1000);
+        window.setTimeout(this.updateSolariBoard, 1000);
         return;
     }
 
@@ -400,7 +386,7 @@ function updateSolariBoard() {
 
     // update the current_row board
     current_board = new_board.slice(0);
-}
+};
 
 function clearBoard() {
     //stop all animations
@@ -412,4 +398,5 @@ function clearBoard() {
         UpdateSolariRow(r, current_board[r], EMPTY_ROW);
         current_board[r] = EMPTY_ROW;
     }
+}
 }

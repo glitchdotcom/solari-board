@@ -23,9 +23,52 @@
                 Your browser does not support the audio element.
     </audio>
     <script>
+        var data1 = [
+            {'sDate': 'today',
+                'sTime': '13:30',
+                'sDeparture': 'foo@example.com',
+                'nStatus': 1,
+                'nTrack': 17,
+                'fLight': true
+        },
+        {'sDate': 'yesterday',
+            'sTime': '16:00',
+            'sDeparture': 'bar@example.com',
+            'nStatus': 2,
+            'nTrack': 19,
+            'fLight':false
+        },
+        {'sDate': 'July 8th, 2013',
+            'sTime': '16:30',
+            'sDeparture': 'baz@example.com',
+            'nStatus': 2,
+            'nTrack': 23,
+            'fLight':false
+        }
+        ];
+        var data2 = [
+            {'sDate': 'today',
+                'sTime': '13:30',
+                'sDeparture': 'foo@example.com',
+                'nStatus': 1,
+                'nTrack': 17,
+                'fLight': true
+        },
+        {'sDate': 'July 8th, 2013',
+            'sTime': '16:30',
+            'sDeparture': 'quux@example.com',
+            'nStatus': 2,
+            'nTrack': 12,
+            'fLight':false
+        }
+        ];
+
         $(document).ready(function() {
-            addSolariBoard();
+            window.solari = new SolariBoard();
+            window.solari.updateSolariBoard(data1);
+            window.setTimeout(function(){window.solari.updateSolariBoard(data2);}, 15000);
         });
     </script>
 </head>
+<body></body>
 </html>
