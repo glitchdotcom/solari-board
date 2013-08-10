@@ -27,59 +27,59 @@
 
 function SolariBoard(divSelector) {
 
-// some constants and enums
-var RATE_VARIANCE = 8; // for determining random animation rate in milliseconds
-var RATE_BASE = 8; // for determining random animation rate in milliseconds  
-var BOARD_ROWS = 8; // total number of rows displayed on the solari board
-var SECOND_SECTION_START = 8; // the first row that contains a next due case
-var LETTER_HEIGHT = 26; // height of a single letter frame (in pixels) in the letter image
-var FIRST_CHAR_CODE = 32; // the first ASCII character that is represented in the letter image
-var LAST_CHAR_CODE = 96; // the last ASCII character that is represented in the letter image
-var CHAR_FACTOR = 2; // every N character in the letter image is a "real" character
-var IMAGE_HEIGHT = 20; // height of a single product or status image frame (in pixels)
-var IMAGE_FACTOR = 2; // every N picture in the letter image is a "real" image (i.e., not an in-between frame)
-var DEPARTURE_BOXES = 25; // number of letter boxes displayed in the departure column
-var TIME_BOXES = 4; // number of letter boxes displayed in the time column
-var TRACK_BOXES = 2; // number of letter boxes displayed in the track column
-var REFRESH_TIME = 60; //refresh time in seconds
-var EMPTY_ROW = {
-    "sTime": "",
-    "sDeparture": "",
-    "nStatus": 0,
-    "sStatus": "",
-    "nTrack" : 0
-};
+    // some constants and enums
+    var RATE_VARIANCE = 8; // for determining random animation rate in milliseconds
+    var RATE_BASE = 8; // for determining random animation rate in milliseconds  
+    var BOARD_ROWS = 8; // total number of rows displayed on the solari board
+    var SECOND_SECTION_START = 8; // the first row that contains a next due case
+    var LETTER_HEIGHT = 26; // height of a single letter frame (in pixels) in the letter image
+    var FIRST_CHAR_CODE = 32; // the first ASCII character that is represented in the letter image
+    var LAST_CHAR_CODE = 96; // the last ASCII character that is represented in the letter image
+    var CHAR_FACTOR = 2; // every N character in the letter image is a "real" character
+    var IMAGE_HEIGHT = 20; // height of a single product or status image frame (in pixels)
+    var IMAGE_FACTOR = 2; // every N picture in the letter image is a "real" image (i.e., not an in-between frame)
+    var DEPARTURE_BOXES = 25; // number of letter boxes displayed in the departure column
+    var TIME_BOXES = 4; // number of letter boxes displayed in the time column
+    var TRACK_BOXES = 2; // number of letter boxes displayed in the track column
+    var REFRESH_TIME = 60; //refresh time in seconds
+    var EMPTY_ROW = {
+        "sTime": "",
+        "sDeparture": "",
+        "nStatus": 0,
+        "sStatus": "",
+        "nTrack" : 0
+    };
 
-//if true, the status column will be handled automatically according to time and date. false will override status with nStatus from payload
-var status_override = true;
+    //if true, the status column will be handled automatically according to time and date. false will override status with nStatus from payload
+    var status_override = true;
 
-var Status = {
-    "none": 0,
-    "all_aboard": 1,
-    "on_time": 2,
-    "delayed": 3,
-    "departed": 4
-};
+    var Status = {
+        "none": 0,
+        "all_aboard": 1,
+        "on_time": 2,
+        "delayed": 3,
+        "departed": 4
+    };
 
-var LAST_STATUS = 4;
-var NextDueStatus = [null, "soon", "null", "overdue", null];
-var solariTimeout;
-var failboard = false;
+    var LAST_STATUS = 4;
+    var NextDueStatus = [null, "soon", "null", "overdue", null];
+    var solariTimeout;
+    var failboard = false;
 
-// start with variable that will hold data, empty, current and new boards
-var solariData;
-var current_board = [];
-var new_board = [];
+    // start with variable that will hold data, empty, current and new boards
+    var solariData;
+    var current_board = [];
+    var new_board = [];
 
-//an attempt to reduce slowdown from animations
-jQuery.fx.interval = 20;
+    //an attempt to reduce slowdown from animations
+    jQuery.fx.interval = 20;
 
-function ToUpper(code) {
-    if (code > 96 && code < 123) {
-        code -= 32;
+    function ToUpper(code) {
+        if (code > 96 && code < 123) {
+            code -= 32;
+        }
+        return code;
     }
-    return code;
-}
 
     //constructs the solariBoard within the given div. If no parameter is given, adds the board to "body"
     if (arguments.length === 0) {
@@ -89,40 +89,40 @@ function ToUpper(code) {
 
     //The html structure of the solari board. This implementation is pretty ugly, but is a simple, single-append solution. 
     var $solari = $("<div class=\"column solari_grid\">" +
-            "<a id='show-solari' href=\"index.html\" onclick=\"localStorage['StopSolari']=0\">Show Solari Board</a>" +
-            "<div id=\"solari\" class=\"panel\">" +
-            "<div id=\"departures\">" +
-            "<header class=\"solari-board-header rounded\"> " +
-            "<div class=\"solari-board-icon\"> </div>" +
-            "<div class=\"clockContainer\">" +
-            "<ul class=\"clockList\">" +
-            "<li id=\"hours\">12</li>" +
-            "<li id=\"point\">:</li>" +
-            "<li id=\"min\">00</li>" +
-            "<li id=\"ampm\"> pm</li>" +
-            "</ul>" +
-            "</div>" +
-            "<div id=\"next-due\">" +
-            "<p>Next due:</p>" +
-            "<div class=\"inner low\">" +
-            "<span class=\"clock\">00:00</span>" +
-            "<span class=\"today\"></span>" +
-            "</div>" +
-            "</div>" +
-            "</header>" +
-            "<ul class=\"solari-board-columns rounded\">" +
-            "<li class=\"time\">Time</li>" +
-            "<li class=\"departure\">Departure</li>" +
-            "<li class=\"status\">Status</li>" +
-            "<li class=\"track\">Track</li>" +
-            "</ul>" +
-            "<ul class=\"solari-board-rows rounded\">" +
-            "</ul>" +
-            "</div>" +
-            "<div id=\"last-updated\">Last updated: <span>n/a</span></div>" +
-            "</div>" +
-            "</div>" +
-            "</div>").html();
+                    "<a id='show-solari' href=\"index.html\" onclick=\"localStorage['StopSolari']=0\">Show Solari Board</a>" +
+                    "<div id=\"solari\" class=\"panel\">" +
+                    "<div id=\"departures\">" +
+                    "<header class=\"solari-board-header rounded\"> " +
+                    "<div class=\"solari-board-icon\"> </div>" +
+                    "<div class=\"clockContainer\">" +
+                    "<ul class=\"clockList\">" +
+                    "<li id=\"hours\">12</li>" +
+                    "<li id=\"point\">:</li>" +
+                    "<li id=\"min\">00</li>" +
+                    "<li id=\"ampm\"> pm</li>" +
+                    "</ul>" +
+                    "</div>" +
+                    "<div id=\"next-due\">" +
+                    "<p>Next due:</p>" +
+                    "<div class=\"inner low\">" +
+                    "<span class=\"clock\">00:00</span>" +
+                    "<span class=\"today\"></span>" +
+                    "</div>" +
+                    "</div>" +
+                    "</header>" +
+                    "<ul class=\"solari-board-columns rounded\">" +
+                    "<li class=\"time\">Time</li>" +
+                    "<li class=\"departure\">Departure</li>" +
+                    "<li class=\"status\">Status</li>" +
+                    "<li class=\"track\">Track</li>" +
+                    "</ul>" +
+                    "<ul class=\"solari-board-rows rounded\">" +
+                    "</ul>" +
+                    "</div>" +
+                    "<div id=\"last-updated\">Last updated: <span>n/a</span></div>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>").html();
     //add the board html
     $(divSelector).append($solari);
 
@@ -196,207 +196,207 @@ function ToUpper(code) {
     }
     window.setInterval(this.updateSolariBoard, 1000 * REFRESH_TIME);
 
-function NextDue(id, time, offset, status) {
-    $(id + ' .today').html(offset);
-    $(id + ' .clock').html(time);
-    $(id + ' .inner').attr('class', 'inner'); // get rid of any existing classes
-    $(id + ' .inner').addClass(solariData[0] === EMPTY_ROW ? "later" : NextDueStatus[status]); // add the appropriate class based on status. If no data, green.
-}
+    function NextDue(id, time, offset, status) {
+        $(id + ' .today').html(offset);
+        $(id + ' .clock').html(time);
+        $(id + ' .inner').attr('class', 'inner'); // get rid of any existing classes
+        $(id + ' .inner').addClass(solariData[0] === EMPTY_ROW ? "later" : NextDueStatus[status]); // add the appropriate class based on status. If no data, green.
+    }
 
-function UpdateSolariRow(row, current_row, new_row) {
-    var rate = RATE_BASE + Math.random() * RATE_VARIANCE + Math.random() * RATE_VARIANCE + Math.random() * RATE_VARIANCE;
+    function UpdateSolariRow(row, current_row, new_row) {
+        var rate = RATE_BASE + Math.random() * RATE_VARIANCE + Math.random() * RATE_VARIANCE + Math.random() * RATE_VARIANCE;
 
-    SpinChars(rate, '#time-row' + row, TIME_BOXES, current_row.sTime.replace(":",""), new_row.sTime.replace(":",""));
-    SpinChars(rate, '#departure-row' + row, DEPARTURE_BOXES, current_row.sDeparture, new_row.sDeparture);
+        SpinChars(rate, '#time-row' + row, TIME_BOXES, current_row.sTime.replace(":",""), new_row.sTime.replace(":",""));
+        SpinChars(rate, '#departure-row' + row, DEPARTURE_BOXES, current_row.sDeparture, new_row.sDeparture);
 
-    //turn track numbers into strings for display. Ensure they are always two chars long
-    current_row.sTrack = current_row === EMPTY_ROW ? "" : current_row.nTrack.toString().length > 1 ? current_row.nTrack.toString() : "0" + current_row.nTrack.toString();
-    new_row.sTrack = new_row === EMPTY_ROW ? "" : new_row.nTrack.toString().length > 1 ? new_row.nTrack.toString() : "0" + new_row.nTrack.toString();
-    SpinChars(rate, '#track-row' + row, TRACK_BOXES, current_row.sTrack, new_row.sTrack);  
-    SpinImage(rate, '#row' + row + ' .status-icon', current_row.nStatus, new_row.nStatus);
+        //turn track numbers into strings for display. Ensure they are always two chars long
+        current_row.sTrack = current_row === EMPTY_ROW ? "" : current_row.nTrack.toString().length > 1 ? current_row.nTrack.toString() : "0" + current_row.nTrack.toString();
+        new_row.sTrack = new_row === EMPTY_ROW ? "" : new_row.nTrack.toString().length > 1 ? new_row.nTrack.toString() : "0" + new_row.nTrack.toString();
+        SpinChars(rate, '#track-row' + row, TRACK_BOXES, current_row.sTrack, new_row.sTrack);  
+        SpinImage(rate, '#row' + row + ' .status-icon', current_row.nStatus, new_row.nStatus);
 
-    //clear and apply light class
-    $("#row" + row + " span").attr('class', 'circle');
-    $("#row" + row + " span").addClass(new_row.bLight ? 'circle-on' : 'circle');
-}
+        //clear and apply light class
+        $("#row" + row + " span").attr('class', 'circle');
+        $("#row" + row + " span").addClass(new_row.bLight ? 'circle-on' : 'circle');
+    }
 
-function SpinChars(rate, selector_prefix, max_boxes, current_text, new_text) {
-    //populate each box
-    var num_spins = 0;
-    for (var box = 0; box < max_boxes; box++) {
-        // get the to and from character codes for this box
-        var to_char_code = ToUpper(((new_text.length > box) ? new_text.charCodeAt(box) : 32));
-        var from_char_code = ToUpper(((current_text.length > box) ? current_text.charCodeAt(box) : 32));
-        var final_pos = '';
-        if (from_char_code > to_char_code) {
-            num_spins = ((LAST_CHAR_CODE - from_char_code) + (to_char_code - FIRST_CHAR_CODE)) * CHAR_FACTOR;
-            final_pos = ((LETTER_HEIGHT * (to_char_code - FIRST_CHAR_CODE)) * CHAR_FACTOR) * -1;
-        } else {
-            num_spins = (to_char_code - from_char_code) * CHAR_FACTOR;
+    function SpinChars(rate, selector_prefix, max_boxes, current_text, new_text) {
+        //populate each box
+        var num_spins = 0;
+        for (var box = 0; box < max_boxes; box++) {
+            // get the to and from character codes for this box
+            var to_char_code = ToUpper(((new_text.length > box) ? new_text.charCodeAt(box) : 32));
+            var from_char_code = ToUpper(((current_text.length > box) ? current_text.charCodeAt(box) : 32));
+            var final_pos = '';
+            if (from_char_code > to_char_code) {
+                num_spins = ((LAST_CHAR_CODE - from_char_code) + (to_char_code - FIRST_CHAR_CODE)) * CHAR_FACTOR;
+                final_pos = ((LETTER_HEIGHT * (to_char_code - FIRST_CHAR_CODE)) * CHAR_FACTOR) * -1;
+            } else {
+                num_spins = (to_char_code - from_char_code) * CHAR_FACTOR;
+            }
+            var selector = selector_prefix + 'box' + box; // add the box part
+
+            SpinIt(selector, num_spins, rate, LETTER_HEIGHT, final_pos);
         }
-        var selector = selector_prefix + 'box' + box; // add the box part
-
-        SpinIt(selector, num_spins, rate, LETTER_HEIGHT, final_pos);
-    }
-}
-
-function SpinImage(rate, selector, from_pos, to_pos) {
-    var final_pos = '';
-    var num_spins = 0;
-
-    if (from_pos > to_pos) {
-        num_spins = (((LAST_STATUS - from_pos) + to_pos) * IMAGE_FACTOR);
-        final_pos = ((IMAGE_HEIGHT * to_pos) * IMAGE_FACTOR) * -1;
-    } else {
-        num_spins = ((to_pos - from_pos) * IMAGE_FACTOR);
     }
 
-    if (from_pos === 4 && to_pos === 0) {
-        num_spins = 8;
+    function SpinImage(rate, selector, from_pos, to_pos) {
+        var final_pos = '';
+        var num_spins = 0;
+
+        if (from_pos > to_pos) {
+            num_spins = (((LAST_STATUS - from_pos) + to_pos) * IMAGE_FACTOR);
+            final_pos = ((IMAGE_HEIGHT * to_pos) * IMAGE_FACTOR) * -1;
+        } else {
+            num_spins = ((to_pos - from_pos) * IMAGE_FACTOR);
+        }
+
+        if (from_pos === 4 && to_pos === 0) {
+            num_spins = 8;
+        }
+
+        //unless we're not moving at all, make the image go 'round 8 more times that it needs to, otherwise it finishes too fast.
+        if (num_spins !== 0) {
+            $('audio#solari-audio')[0].play();
+            num_spins +=80;
+        }
+        SpinIt(selector, num_spins, rate, IMAGE_HEIGHT, final_pos);
     }
 
-    //unless we're not moving at all, make the image go 'round 8 more times that it needs to, otherwise it finishes too fast.
-    if (num_spins !== 0) {
-        $('audio#solari-audio')[0].play();
-        num_spins +=80;
+    function SpinIt(selector, num_spins, rate, pixel_distance, final_pos) {
+        for (var ii = 0; ii < num_spins; ii++) {
+            $(selector).transition(
+                {backgroundPositionY: '-=' + (pixel_distance * 2)},
+                {duration: 1, easing: "linear"}
+            );
+            $(selector).transition(
+                {backgroundPositionY: '+=1'},
+                {duration: rate, easing: "linear"}
+            );
+            // on the very last iteration, use a call back to set the background position to the "real" position
+            var f = function () {};
+            if ((final_pos !== '') && (ii === (num_spins-1))) {
+                f = function() {
+                    $(selector).css('backgroundPositionY', final_pos);
+                };
+            }
+            $(selector).transition({backgroundPositionY: '+=' + (pixel_distance - 1)}, 1, f);
+        }
     }
-    SpinIt(selector, num_spins, rate, IMAGE_HEIGHT, final_pos);
-}
 
-function SpinIt(selector, num_spins, rate, pixel_distance, final_pos) {
-    for (var ii = 0; ii < num_spins; ii++) {
-        $(selector).transition(
-            {backgroundPositionY: '-=' + (pixel_distance * 2)},
-            {duration: 1, easing: "linear"}
-        );
-        $(selector).transition(
-            {backgroundPositionY: '+=1'},
-            {duration: rate, easing: "linear"}
-        );
-        // on the very last iteration, use a call back to set the background position to the "real" position
-        var f = function () {};
-        if ((final_pos !== '') && (ii === (num_spins-1))) {
-            f = function() {
-                $(selector).css('backgroundPositionY', final_pos);
+    function GetFailBoard() {
+
+        $("#arrivals .solari-board-header, #arrivals .solari-board-columns").hide(1000);
+
+        var fail_whale = [];
+        fail_whale[0] = "    v  v        v";
+        fail_whale[1] = "    !  !  v     !  v";
+        fail_whale[2] = "    ! .-, !     !  !";
+        fail_whale[3] = " .--./ /  !  _.---.!";
+        fail_whale[4] = "  '-. (__..-\"       \\";
+        fail_whale[5] = "     \\          &    !";
+        fail_whale[6] = "      ',.__.   ,__.-'/";
+        fail_whale[7] = "        '--/_.'----''";
+
+        var board = [];
+        // update each row on the board
+        for (var row = 0; row < BOARD_ROWS; row++) {
+            board[row] = {
+                "sTime": "",
+                "sDeparture": fail_whale[row],
+                "nStatus": 0,
+                "nTrack": 0
             };
         }
-        $(selector).transition({backgroundPositionY: '+=' + (pixel_distance - 1)}, 1, f);
-    }
-}
-
-function GetFailBoard() {
-
-    $("#arrivals .solari-board-header, #arrivals .solari-board-columns").hide(1000);
-
-    var fail_whale = [];
-    fail_whale[0] = "    v  v        v";
-    fail_whale[1] = "    !  !  v     !  v";
-    fail_whale[2] = "    ! .-, !     !  !";
-    fail_whale[3] = " .--./ /  !  _.---.!";
-    fail_whale[4] = "  '-. (__..-\"       \\";
-    fail_whale[5] = "     \\          &    !";
-    fail_whale[6] = "      ',.__.   ,__.-'/";
-    fail_whale[7] = "        '--/_.'----''";
-
-    var board = [];
-    // update each row on the board
-    for (var row = 0; row < BOARD_ROWS; row++) {
-        board[row] = {
-            "sTime": "",
-            "sDeparture": fail_whale[row],
-            "nStatus": 0,
-            "nTrack": 0
-        };
-    }
-    return board;
-}
-
-this.updateSolariBoard = function (data) {
-    solariData = data;
-
-    // update last refresh time text
-    $('#last-updated span').fadeOut("slow", function() {
-        var now = new Date();
-        $('#last-updated span').html(now.toLocaleString());
-    }).fadeIn("slow");
-
-
-    if (!failboard && typeof solariData === 'undefined') {
-        window.setTimeout(this.updateSolariBoard, 1000);
-        return;
+        return board;
     }
 
-    try {
-        if (solariData.length === 0) {
-            clearBoard();
+    this.updateSolariBoard = function (data) {
+        solariData = data;
+
+        // update last refresh time text
+        $('#last-updated span').fadeOut("slow", function() {
+            var now = new Date();
+            $('#last-updated span').html(now.toLocaleString());
+        }).fadeIn("slow");
+
+
+        if (!failboard && typeof solariData === 'undefined') {
+            window.setTimeout(this.updateSolariBoard, 1000);
             return;
         }
-    }
-    catch(err) {}
 
-    //Format the "Next Due" box
-    $("#arrivals .solari-board-header, #arrivals .solari-board-columns").show(1000);
-    if (!failboard) {
-        new_board = solariData;
-        var i;
-        //the next due box should display the next available time, which may not be from the first case
-        var time;
-        for (i=0; i< 8; i++) {
-            time = solariData[i].sTime;
-            if (typeof time !== "undefined")
-                break;
-        }
-        var next_due_row = solariData[i];
-        time = next_due_row.sTime;
-        var timeDelta = Date.parse(next_due_row.sDate).getTime() - new Date().getTime();
-        var nOffset = Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide by miliseconds per day
-        var offset = (nOffset === 0 ? "" : nOffset.toString() + "d"); //hide if next due is today
-        if(status_override) {
-            if (time) {
-                var hrsDelta = Number(time.substring(0,2)) - new Date().getHours();
-                nOffset += timeDelta < 0 ? -1 : 0; // if the time difference is negative, which means we are within 24 hours of due, so reduce day offset by 1
-                if (nOffset < 0) {
-                    new_board[0].nStatus = 3; // if we've past the due date
-                } else if (nOffset === 0 && hrsDelta < 2 && hrsDelta >= 0 ) {
-                    new_board[0].nStatus =1; //due within 2 hours
-                } else {
-                    new_board[0].nStatus = failboard ? 1 : 2;
-                }
+        try {
+            if (solariData.length === 0) {
+                clearBoard();
+                return;
             }
         }
-        var status = next_due_row.nStatus;
-        time = (time === "") ? "00:00" : time;
-        NextDue("#next-due", time, offset, status);
-    } else {
-        //failed to get data
-        new_board = GetFailBoard();
-        $("ul.solari-board-columns li.departure").text("FAIL WHALE");
-        NextDue("#next-due", '-FA1L-', '', 1);
-    }
+        catch(err) {}
 
-    // update each row on the board
-    for (var row = 0; row < BOARD_ROWS; row++) {
-        if ((new_board[row] === undefined)) {
-            // make this an empty row
-            new_board[row] = EMPTY_ROW;
+        //Format the "Next Due" box
+        $("#arrivals .solari-board-header, #arrivals .solari-board-columns").show(1000);
+        if (!failboard) {
+            new_board = solariData;
+            var i;
+            //the next due box should display the next available time, which may not be from the first case
+            var time;
+            for (i=0; i< 8; i++) {
+                time = solariData[i].sTime;
+                if (typeof time !== "undefined")
+                    break;
+            }
+            var next_due_row = solariData[i];
+            time = next_due_row.sTime;
+            var timeDelta = Date.parse(next_due_row.sDate).getTime() - new Date().getTime();
+            var nOffset = Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide by miliseconds per day
+            var offset = (nOffset === 0 ? "" : nOffset.toString() + "d"); //hide if next due is today
+            if(status_override) {
+                if (time) {
+                    var hrsDelta = Number(time.substring(0,2)) - new Date().getHours();
+                    nOffset += timeDelta < 0 ? -1 : 0; // if the time difference is negative, which means we are within 24 hours of due, so reduce day offset by 1
+                    if (nOffset < 0) {
+                        new_board[0].nStatus = 3; // if we've past the due date
+                    } else if (nOffset === 0 && hrsDelta < 2 && hrsDelta >= 0 ) {
+                        new_board[0].nStatus =1; //due within 2 hours
+                    } else {
+                        new_board[0].nStatus = failboard ? 1 : 2;
+                    }
+                }
+            }
+            var status = next_due_row.nStatus;
+            time = (time === "") ? "00:00" : time;
+            NextDue("#next-due", time, offset, status);
+        } else {
+            //failed to get data
+            new_board = GetFailBoard();
+            $("ul.solari-board-columns li.departure").text("FAIL WHALE");
+            NextDue("#next-due", '-FA1L-', '', 1);
         }
-        // change the row
-        UpdateSolariRow(row, current_board[row], new_board[row]);
-    }
 
-    // update the current_row board
-    current_board = new_board.slice(0);
-};
+        // update each row on the board
+        for (var row = 0; row < BOARD_ROWS; row++) {
+            if ((new_board[row] === undefined)) {
+                // make this an empty row
+                new_board[row] = EMPTY_ROW;
+            }
+            // change the row
+            UpdateSolariRow(row, current_board[row], new_board[row]);
+        }
 
-function clearBoard() {
-    //stop all animations
-    $(".time").children().stop(true, true);
-    $(".departure").children().stop(true, true);
-    $(".status").children().stop(true, true);
-    $(".track").children().stop(true, true);
-    for (var r = 0; r < 8; r++) {
-        UpdateSolariRow(r, current_board[r], EMPTY_ROW);
-        current_board[r] = EMPTY_ROW;
+        // update the current_row board
+        current_board = new_board.slice(0);
+    };
+
+    function clearBoard() {
+        //stop all animations
+        $(".time").children().stop(true, true);
+        $(".departure").children().stop(true, true);
+        $(".status").children().stop(true, true);
+        $(".track").children().stop(true, true);
+        for (var r = 0; r < 8; r++) {
+            UpdateSolariRow(r, current_board[r], EMPTY_ROW);
+            current_board[r] = EMPTY_ROW;
+        }
     }
-}
 }
