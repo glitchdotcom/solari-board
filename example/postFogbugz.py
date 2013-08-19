@@ -6,6 +6,7 @@ from __future__ import print_function
 import json
 import random
 import sys
+import cgi
 from datetime import datetime
 
 import fbsettings
@@ -42,7 +43,7 @@ def cgi():
         pass
 
     print("Content-Type: application/json", end='\n\n')
-    print("jsonpCallback(" +json.dump(cases, sys.stdout) ""
+    print("jsonpCallback(" +json.dump(cases, sys.stdout) ")")
 
 if __name__ == '__main__':
     cgi()
