@@ -349,14 +349,13 @@ function updateSolariBoard() {
         }).fadeIn("slow");
     }
 
-
     if (!failboard && typeof solariData === 'undefined') {
         window.setTimeout(updateSolariBoard, 1000);
         return;
     }
 
     window.setInterval(updateSolariBoard, 1000 * REFRESH_TIME);
-    
+
     try {
         if (solariData.length === 0) {
             clearBoard();
