@@ -318,25 +318,6 @@ function GetFailBoard() {
     return board;
 }
 
-function updateSolariBoard() {
-    $.ajax({
-        url: URL + "?callback=?",
-        cache: false,
-        type: "POST",
-        dataType: "jsonp",
-        jsonpCallback: "jsonpCallback",
-        success: function (data) {
-            if (data !== null) {
-                console.log(data);
-                solariData = data.slice(0);
-                failboard = false;
-            }
-        },
-        error: function () {
-            failboard = true;
-        }
-        });
-
 function jsonpCallback(data){
     if (data !== null) {
         solariData = data.slice(0);
@@ -344,6 +325,18 @@ function jsonpCallback(data){
     }
 }
 
+function updateSolariBoard() {
+    $.ajax({
+        url: URL + "?callback=?",
+        cache: false,
+        type: "POST",
+        dataType: "jsonp",
+        jsonpCallback: "jsonpCallback",
+        error: function () {
+            failboard = true;
+        }
+    });
+        
     // update last refresh time text
     $('#last-updated span').fadeOut("slow", function() {
         var now = new Date();
