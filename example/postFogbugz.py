@@ -42,7 +42,7 @@ def cgi():
         pass
 
     print("Content-Type: application/json", end='\n\n')
-    json.dump(cases, sys.stdout)
+    print("jsonpCallback(" +json.dump(cases, sys.stdout) ")"
 
 if __name__ == '__main__':
     cgi()

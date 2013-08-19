@@ -50,6 +50,7 @@ var EMPTY_ROW = {
 
 //if true, the status column will be handled automatically according to time and date. false will override status with nStatus from payload
 var status_override = true;
+var URL = "../example/postJsonp.py"
 
 var Status = {
     "none": 0,
@@ -206,7 +207,7 @@ function NextDue(id, time, offset, status) {
     $(id + ' .today').html(offset);
     $(id + ' .clock').html(time);
     $(id + ' .inner').attr('class', 'inner'); // get rid of any existing classes
-    $(id + ' .inner').addClass(solariData[0] === EMPTY_ROW ? "later" : NextDueStatus[status]); // add the appropriate class based on status. If no data, green.
+    $(id + ' .inner').addClass(new_board[0] === EMPTY_ROW ? "later" : NextDueStatus[status]); // add the appropriate class based on status. If no data, green.
 }
 
 function UpdateSolariRow(row, current_row, new_row) {
@@ -318,15 +319,30 @@ function GetFailBoard() {
 }
 
 function updateSolariBoard() {
-    $.post('../example/postJson.py', //replace this with your own script
-            function (data) {
-                if (data !== null) {
-                    solariData = data.slice(0);
-                    failboard = false;
-                }
-            }, "json").fail(function () {
-                failboard = true;
-            });
+    $.ajax({
+        url: URL + "?callback=?",
+        cache: false,
+        type: "POST",
+        dataType: "jsonp",
+        jsonpCallback: "jsonpCallback",
+        success: function (data) {
+            if (data !== null) {
+                console.log(data);
+                solariData = data.slice(0);
+                failboard = false;
+            }
+        },
+        error: function () {
+            failboard = true;
+        }
+        });
+
+function jsonpCallback(data){
+    if (data !== null) {
+        solariData = data.slice(0);
+        failboard = false;
+    }
+}
 
     // update last refresh time text
     $('#last-updated span').fadeOut("slow", function() {
