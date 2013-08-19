@@ -201,7 +201,7 @@ function addSolariBoard(divSelector) {
         }
     }
     solari_setup_done = 1;
-    window.setInterval(updateSolariBoard(), 1000 * REFRESH_TIME);
+    updateSolariBoard();
 }
 
 function NextDue(id, time, offset, status) {
@@ -355,6 +355,8 @@ function updateSolariBoard() {
         return;
     }
 
+    window.setInterval(updateSolariBoard, 1000 * REFRESH_TIME);
+    
     try {
         if (solariData.length === 0) {
             clearBoard();
