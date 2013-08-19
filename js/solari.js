@@ -65,6 +65,7 @@ var NextDueStatus = [null, "soon", "null", "overdue", null];
 var solariTimeout;
 var solari_setup_done = 0;
 var failboard = false;
+var syncing = true;
 
 // start with variable that will hold data, empty, current and new boards
 var solariData;
@@ -318,30 +319,35 @@ function GetFailBoard() {
     return board;
 }
 
-function jsonpCallback(data){
+function jsonpCallback(data) {
     if (data !== null) {
         solariData = data.slice(0);
         failboard = false;
+        syncing = false;
     }
 }
 
 function updateSolariBoard() {
-    $.ajax({
-        url: URL + "?callback=?",
-        cache: false,
-        type: "POST",
-        dataType: "jsonp",
-        jsonpCallback: "jsonpCallback",
-        error: function () {
-            failboard = true;
-        }
-    });
-        
-    // update last refresh time text
-    $('#last-updated span').fadeOut("slow", function() {
-        var now = new Date();
-        $('#last-updated span').html(now.toLocaleString());
-    }).fadeIn("slow");
+    if (!syncing) {
+        syncing = true;
+        $.ajax({
+            url: URL + "?callback=?",
+            cache: false,
+            type: "POST",
+            dataType: "jsonp",
+            jsonpCallback: "jsonpCallback",
+            timeout: 10*1000,
+            error: function () {
+                failboard = true;
+            }
+        });
+    
+        // update last refresh time text
+        $('#last-updated span').fadeOut("slow", function() {
+            var now = new Date();
+            $('#last-updated span').html(now.toLocaleString());
+        }).fadeIn("slow");
+    }
 
 
     if (!failboard && typeof solariData === 'undefined') {
