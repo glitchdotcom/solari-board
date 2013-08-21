@@ -85,7 +85,7 @@ It's simple!
             });
        </script>
 
-  3. Point the board to the script that will feed it json
+  3. Point the board to the script that will feed it jsonp
 
         $.post('../example/postJson.py')  // replace this with your own script
 
@@ -99,7 +99,7 @@ other browsers.  We'd welcome patches that help resolve this issue.
 - The `sDate` field takes any 
   [date.js](https://code.google.com/p/datejs/wiki/APIDocumentation#parse) parsable string
   (e.g. `today`, `next monday`)
-- There are two included examples, postJsonp.py is a simple example that sends the example given above to the solari board without changing.
+- There are two included examples, postJsonp.py is a basic script that statically sends the sample payload given above to the solari board.
   postFogbugz.py connects to a FogBugz installation through the [xml api](https://developers.fogbugz.com/default.asp?W199).
   To use either example, Just place all files and folders onto a Python-enabled CGI server, then edit `fbsettings.py` with your FogBugz URL and
   [FogBugz token](http://fogbugz.stackexchange.com/questions/900/how-do-i-get-an-xml-api-token) if needed.
