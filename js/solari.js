@@ -199,6 +199,7 @@ function addSolariBoard(divSelector) {
         }
     }
     solari_setup_done = 1;
+    window.setInterval(function (){updateSolariBoard()}, 1000 * REFRESH_TIME);
     updateSolariBoard();
 }
 
@@ -336,11 +337,10 @@ function updateSolariBoard() {
 
 
     if (!failboard && typeof solariData === 'undefined') {
-        window.setTimeout(updateSolariBoard, 1000);
+        window.clearTimeout(solariTimeout);
+        solariTimeout = window.setTimeout(updateSolariBoard, 1000);
         return;
     }
-
-    window.setInterval(updateSolariBoard, 1000 * REFRESH_TIME);
 
     try {
         if (solariData.length === 0) {
