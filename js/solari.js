@@ -320,7 +320,7 @@ function GetFailBoard() {
     return board;
 }
 
-function jsonpCallback(data) {
+function solariCallback(data) {
     if (data !== null) {
         solariData = data.slice(0);
         failboard = false;
@@ -336,7 +336,7 @@ function updateSolariBoard() {
             cache: false,
             type: "POST",
             dataType: "jsonp",
-            jsonpCallback: "jsonpCallback",
+            jsonpCallback: "solariCallback",
             timeout: 15*1000,
             error: function () {
                 failboard = true;
