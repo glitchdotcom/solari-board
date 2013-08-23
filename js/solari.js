@@ -14,7 +14,7 @@
  * Released under the MIT license
  *
  * INSTRUCTIONS:
- * The solari board app takes an arbitrary json payload from a post command to target url
+ * The solari board app takes an arbitrary json payload from a post command to target url via jsonp (wrapped in a function call)
  * Currently, the solari board assumes a json structure in the following format:
  *    [
  *        {'sDate':'today','sTime':'13:30','sDeparture':'foo@example.com','nStatus':1,'nTrack':17, 'fLight':true},
@@ -65,7 +65,7 @@ var NextDueStatus = [null, "soon", "null", "overdue", null];
 var solariTimeout;
 var solari_setup_done = 0;
 var failboard = false;
-var syncing = true;
+var syncing = false;
 
 // start with variable that will hold data, empty, current and new boards
 var solariData;
@@ -93,7 +93,7 @@ function addSolariBoard(divSelector) {
         divSelector = "#solariBoardDiv";
     }
        
-    //The html structure of the solari board. This implementation is pretty ugly, but is a simple, single-append solution. 
+    //The html structure of the solari board. This implementation is pretty ugly, but it's a simple, single-append solution. 
     var $solari = $("<div class=\"column solari_grid\">" +
             "<a id='show-solari' href=\"index.html\" onclick=\"localStorage['StopSolari']=0\">Show Solari Board</a>" +
             "<div id=\"solari\" class=\"panel\">" +
@@ -337,7 +337,7 @@ function updateSolariBoard() {
             type: "POST",
             dataType: "jsonp",
             jsonpCallback: "jsonpCallback",
-            timeout: 10*1000,
+            timeout: 15*1000,
             error: function () {
                 failboard = true;
             }
@@ -352,13 +352,13 @@ function updateSolariBoard() {
 
     if (!failboard && typeof solariData === 'undefined') {
         window.clearTimeout(solariTimeout);
-        window.setTimeout(updateSolariBoard, 1000);
+        solariTimeout = window.setTimeout(updateSolariBoard, 2000);
         return;
     }
-
+    
     try {
         if (solariData.length === 0) {
-            clearBoard();
+            clearBoard();   
             return;
         }
     }
@@ -369,7 +369,7 @@ function updateSolariBoard() {
     if (!failboard) {
         new_board = solariData;
         var i;
-        //the next due box should display the next available time, which may not be from the first case
+        //the next due box should display information on the row for which time info is available, which may not be from the first case
         var time;
         for (i=0; i< 8; i++) {
             time = solariData[i].sTime;
@@ -379,8 +379,8 @@ function updateSolariBoard() {
         var next_due_row = solariData[i];
         time = next_due_row.sTime;
         var timeDelta = Date.parse(next_due_row.sDate + " " + time).getTime() - new Date().getTime();
-        var nOffset = Math.floor(timeDelta / (1000 * 60 * 60 * 24)); //divide by miliseconds per day
-        var offset = (nOffset === 0 ? "" : nOffset.toString() + "d"); //hide if next due is today
+        var nOffset = timeDelta > 0 ? Math.floor(timeDelta / (1000 * 60 * 60 * 24)) : Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide by miliseconds per day and round to zero
+        var sOffset = (nOffset === 0 ? "" : nOffset.toString() + "d"); //if next due is not today, append a "d"
         if(status_override) {
             if (time) {
                 var hrsDelta = Number(time.substring(0,2)) - new Date().getHours();
@@ -396,7 +396,7 @@ function updateSolariBoard() {
         }
         var status = next_due_row.nStatus;
         time = (time === "") ? "00:00" : time;
-        NextDue("#next-due", time, offset, status);
+        NextDue("#next-due", time, sOffset, status);
     } else {
         //failed to get data
         new_board = GetFailBoard();
