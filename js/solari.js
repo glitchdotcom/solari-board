@@ -219,8 +219,8 @@ function UpdateSolariRow(row, current_row, new_row) {
     SpinChars(rate, '#departure-row' + row, DEPARTURE_BOXES, current_row.sDeparture, new_row.sDeparture);
 
     //turn track numbers into strings for display. Ensure they are always two chars long
-    current_row.sTrack = current_row === EMPTY_ROW ? "" : current_row.nTrack.toString().length > 1 ? current_row.nTrack.toString() : "0" + current_row.nTrack.toString();
-    new_row.sTrack = new_row === EMPTY_ROW ? "" : new_row.nTrack.toString().length > 1 ? new_row.nTrack.toString() : "0" + new_row.nTrack.toString();
+    current_row.sTrack = current_row === EMPTY_ROW ? "" : current_row.nTrack === -1? "--" : current_row.nTrack.toString().length > 1 ? current_row.nTrack.toString() : "0" + current_row.nTrack.toString();
+    new_row.sTrack = new_row === EMPTY_ROW ? "" : new_row.nTrack === -1? "--" :new_row.nTrack.toString().length > 1 ? new_row.nTrack.toString() : "0" + new_row.nTrack.toString();
     SpinChars(rate, '#track-row' + row, TRACK_BOXES, current_row.sTrack, new_row.sTrack);  
     SpinImage(rate, '#row' + row + ' .status-icon', current_row.nStatus, new_row.nStatus);
 
