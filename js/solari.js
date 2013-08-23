@@ -320,28 +320,18 @@ function GetFailBoard() {
     return board;
 }
 
-function solariCallback(data) {
-    if (data !== null) {
-        solariData = data.slice(0);
-        failboard = false;
-        syncing = false;
-    }
-}
-
 function updateSolariBoard() {
     if (!syncing) {
         syncing = true;
-        $.ajax({
-            url: URL + "?callback=?",
-            cache: false,
-            type: "POST",
-            dataType: "jsonp",
-            jsonpCallback: "solariCallback",
-            timeout: 15*1000,
-            error: function () {
+        $.getJSON(URL + "callback=?", function(data) {
+                if (data !== null) {
+                    solariData = data.slice(0);
+                    failboard = false;
+                    syncing = false;
+                }
+            }).error(function () {
                 failboard = true;
-            }
-        });
+            });
     
         // update last refresh time text
         $('#last-updated span').fadeOut("slow", function() {

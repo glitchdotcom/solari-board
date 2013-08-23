@@ -5,7 +5,7 @@ from __future__ import print_function
 
 import json
 import random
-import sys
+import sys, os
 import cgi
 from datetime import datetime
 
@@ -13,7 +13,7 @@ import fbsettings
 from fogbugz import FogBugz
 
 
-def cgi():
+def cgi_callback():
     fb = FogBugz(fbsettings.URL, fbsettings.TOKEN)
     resp = fb.search(q='project:inbox area:* status:active due:today orderby:due',
                      cols="dtDue,sTitle")
@@ -42,8 +42,9 @@ def cgi():
     except:
         pass
 
+    params = cgi.parse_qs(os.environ['QUERY_STRING'])
     print("Content-Type: application/json", end='\n\n')
-    print("jsonpCallback(" + json.dump(cases, sys.stdout) + ")")
+    print ("%s(%s);" % (params['callback'][0],json.dumps(cases, sys.stdout)))
 
 if __name__ == '__main__':
-    cgi()
+    cgi_callback()
