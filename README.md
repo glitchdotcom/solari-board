@@ -7,7 +7,7 @@ for close to three years...and now you can have your own!
 The Solari Board jQuery application will accept JSON from any source. The support team at Fog Creek
 feeds in tech call information from FogBugz, but the possibilities are limitless!
 
-The application expects a JSON array wraped in a function call ([JSONP](http://en.wikipedia.org/wiki/JSONP)) and filled with objects that have the
+The application expects a JSON array wrapped in a function call ([JSONP](http://en.wikipedia.org/wiki/JSONP)) and filled with objects that have the
 following properties:
 
   * `sDate`: the day of the appointment.  The Solari board can handle values
