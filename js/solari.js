@@ -273,23 +273,30 @@ function SpinImage(rate, selector, from_pos, to_pos) {
 }
 
 function SpinIt(selector, num_spins, rate, pixel_distance, final_pos) {
+    var bpX = $(selector).css('backgroundPosition').split(' ')[0];
+    var bpY = $(selector).css('backgroundPosition').split(' ')[1];
+    var updateBpY = function (yDelta) {
+        bpY = (parseFloat(bpY) + yDelta) + 'px';
+        return bpX + ' ' + bpY;
+    };
+
     for (var ii = 0; ii < num_spins; ii++) {
         $(selector).transition(
-            {backgroundPositionY: '-=' + (pixel_distance * 2)},
+            {backgroundPosition: updateBpY(-(pixel_distance * 2))},
             {duration: 1, easing: "linear"}
         );
         $(selector).transition(
-            {backgroundPositionY: '+=1'},
+            {backgroundPosition: updateBpY(1)},
             {duration: rate, easing: "linear"}
         );
         // on the very last iteration, use a call back to set the background position to the "real" position
         var f = function () {};
         if ((final_pos !== '') && (ii === (num_spins-1))) {
             f = function() {
-                $(selector).css('backgroundPositionY', final_pos);
+                $(selector).css('backgroundPosition', bpX + ' ' + final_pos);
             };
         }
-        $(selector).transition({backgroundPositionY: '+=' + (pixel_distance - 1)}, 1, f);
+        $(selector).transition({backgroundPosition: updateBpY((pixel_distance - 1))}, 1, f);
     }
 }
 
