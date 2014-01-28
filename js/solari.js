@@ -301,9 +301,6 @@ function SpinIt(selector, num_spins, rate, pixel_distance, final_pos) {
 }
 
 function GetFailBoard() {
-
-    $("#arrivals .solari-board-header, #arrivals .solari-board-columns").hide(1000);
-
     var fail_whale = [];
     fail_whale[0] = "    v  v        v";
     fail_whale[1] = "    !  !  v     !  v";
