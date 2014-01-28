@@ -375,7 +375,7 @@ function updateSolariBoard() {
         }
         var next_due_row = solariData[i];
         time = next_due_row.sTime;
-        var timeDelta = Date.parse(next_due_row.sDate + " " + time).getTime() - new Date().getTime();
+        var timeDelta = Date.parse(next_due_row.sDate + ", " + time).getTime() - new Date().getTime();
         var nOffset = timeDelta > 0 ? Math.floor(timeDelta / (1000 * 60 * 60 * 24)) : Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide by miliseconds per day and round to zero
         var sOffset = (nOffset === 0 ? "" : nOffset.toString() + "d"); //if next due is not today, append a "d"
         if(status_override) {
