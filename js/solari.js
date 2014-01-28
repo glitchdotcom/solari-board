@@ -358,7 +358,7 @@ function updateSolariBoard() {
         var i;
         //the next due box should display information on the row for which time info is available, which may not be from the first case
         var time;
-        for (i=0; i< 8; i++) {
+        for (i=0; i < BOARD_ROWS; i++) {
             time = solariData[i].sTime;
             if (typeof time !== "undefined")
                 break;
@@ -412,7 +412,7 @@ function clearBoard() {
     $(".departure").children().stop(true, true);
     $(".status").children().stop(true, true);
     $(".track").children().stop(true, true);
-    for (var r = 0; r < 8; r++) {
+    for (var r = 0; r < BOARD_ROWS; r++) {
         UpdateSolariRow(r, current_board[r], EMPTY_ROW);
         current_board[r] = EMPTY_ROW;
     }
