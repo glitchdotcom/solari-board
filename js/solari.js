@@ -360,7 +360,6 @@ function updateSolariBoard() {
     catch(err) {}
 
     //Format the "Next Due" box
-    $("#arrivals .solari-board-header, #arrivals .solari-board-columns").show(1000);
     if (!failboard) {
         new_board = solariData;
         var i;
