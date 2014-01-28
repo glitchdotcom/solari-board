@@ -301,9 +301,6 @@ function SpinIt(selector, num_spins, rate, pixel_distance, final_pos) {
 }
 
 function GetFailBoard() {
-
-    $("#arrivals .solari-board-header, #arrivals .solari-board-columns").hide(1000);
-
     var fail_whale = [];
     fail_whale[0] = "    v  v        v";
     fail_whale[1] = "    !  !  v     !  v";
@@ -330,7 +327,7 @@ function GetFailBoard() {
 function updateSolariBoard() {
     if (!syncing) {
         syncing = true;
-        $.getJSON(URL + "callback=?", function(data) {
+        $.getJSON(URL + (URL.indexOf("?") === -1 ? '?' : '&') + "callback=?", function(data) {
                 if (data !== null) {
                     solariData = data.slice(0);
                     failboard = false;
@@ -338,6 +335,7 @@ function updateSolariBoard() {
                 }
             }).error(function () {
                 failboard = true;
+                syncing = false;
             });
     
         // update last refresh time text
@@ -375,7 +373,7 @@ function updateSolariBoard() {
         }
         var next_due_row = solariData[i];
         time = next_due_row.sTime;
-        var timeDelta = Date.parse(next_due_row.sDate + " " + time).getTime() - new Date().getTime();
+        var timeDelta = Date.parse(next_due_row.sDate + ", " + time).getTime() - new Date().getTime();
         var nOffset = timeDelta > 0 ? Math.floor(timeDelta / (1000 * 60 * 60 * 24)) : Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide by miliseconds per day and round to zero
         var sOffset = (nOffset === 0 ? "" : nOffset.toString() + "d"); //if next due is not today, append a "d"
         if(status_override) {
@@ -394,6 +392,7 @@ function updateSolariBoard() {
         var status = next_due_row.nStatus;
         time = (time === "") ? "00:00" : time;
         NextDue("#next-due", time, sOffset, status);
+        $("ul.solari-board-columns li.departure").text("Departure");
     } else {
         //failed to get data
         new_board = GetFailBoard();
