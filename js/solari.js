@@ -338,6 +338,7 @@ function updateSolariBoard() {
                 }
             }).error(function () {
                 failboard = true;
+                syncing = false;
             });
     
         // update last refresh time text
@@ -394,6 +395,7 @@ function updateSolariBoard() {
         var status = next_due_row.nStatus;
         time = (time === "") ? "00:00" : time;
         NextDue("#next-due", time, sOffset, status);
+        $("ul.solari-board-columns li.departure").text("Departure");
     } else {
         //failed to get data
         new_board = GetFailBoard();
