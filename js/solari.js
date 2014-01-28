@@ -330,7 +330,7 @@ function GetFailBoard() {
 function updateSolariBoard() {
     if (!syncing) {
         syncing = true;
-        $.getJSON(URL + "callback=?", function(data) {
+        $.getJSON(URL + (URL.indexOf("?") === -1 ? '?' : '&') + "callback=?", function(data) {
                 if (data !== null) {
                     solariData = data.slice(0);
                     failboard = false;
