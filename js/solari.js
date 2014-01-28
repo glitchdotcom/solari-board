@@ -62,7 +62,6 @@ var Status = {
 
 var LAST_STATUS = 4;
 var NextDueStatus = [null, "soon", "null", "overdue", null];
-var solariTimeout;
 var solari_setup_done = 0;
 var failboard = false;
 var syncing = false;
@@ -345,12 +344,6 @@ function updateSolariBoard() {
         }).fadeIn("slow");
     }
 
-    if (!failboard && typeof solariData === 'undefined') {
-        window.clearTimeout(solariTimeout);
-        solariTimeout = window.setTimeout(updateSolariBoard, 2000);
-        return;
-    }
-    
     try {
         if (solariData.length === 0) {
             clearBoard();   
