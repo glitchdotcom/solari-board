@@ -399,6 +399,8 @@ function clearBoard() {
     $(".departure").children().stop(true, true);
     $(".status").children().stop(true, true);
     $(".track").children().stop(true, true);
+    //clear the next due and all rows
+    NextDue("#next-due", '00:00', '', '');
     for (var r = 0; r < BOARD_ROWS; r++) {
         UpdateSolariRow(r, current_board[r], EMPTY_ROW);
         current_board[r] = EMPTY_ROW;
