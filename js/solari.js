@@ -61,7 +61,7 @@ var Status = {
 };
 
 var LAST_STATUS = 4;
-var NextDueStatus = [null, "soon", "null", "overdue", null];
+var NextDueStatus = ["", "soon", "null", "overdue", ""];
 var solari_setup_done = 0;
 var failboard = false;
 var syncing = false;
@@ -204,11 +204,10 @@ function addSolariBoard(divSelector) {
     updateSolariBoard();
 }
 
-function NextDue(id, time, offset, status) {
+function NextDue(id, time, offset, add_class) {
     $(id + ' .today').html(offset);
     $(id + ' .clock').html(time);
-    $(id + ' .inner').attr('class', 'inner'); // get rid of any existing classes
-    $(id + ' .inner').addClass(new_board[0] === EMPTY_ROW ? "later" : NextDueStatus[status]); // add the appropriate class based on status. If no data, green.
+    $(id + ' .inner').attr('class', 'inner ' + add_class); // reset the applied classes
 }
 
 function UpdateSolariRow(row, current_row, new_row) {
@@ -381,15 +380,16 @@ function updateSolariBoard() {
                 }
             }
         }
-        var status = next_due_row.nStatus;
+        // add the appropriate class based on status. If no data, green.
+        var status_class = (new_board[0] === EMPTY_ROW ? "later" : NextDueStatus[next_due_row.nStatus])
         time = (time === "") ? "00:00" : time;
-        NextDue("#next-due", time, sOffset, status);
+        NextDue("#next-due", time, sOffset, status_class);
         $("ul.solari-board-columns li.departure").text("Departure");
     } else {
         //failed to get data
         new_board = GetFailBoard();
         $("ul.solari-board-columns li.departure").text("FAIL WHALE");
-        NextDue("#next-due", '-FA1L-', '', 1);
+        NextDue("#next-due", '-FA1L-', '', '');
     }
 
     // update each row on the board
