@@ -352,7 +352,7 @@ function updateSolariBoard() {
                 var i, time;
                 for (i=0; i < BOARD_ROWS; i++) {
                     time = new_board[i].sTime;
-                    if (typeof time !== "undefined")
+                    if (typeof time !== "undefined" && time !== "")
                         break;
                 }
                 var next_due_row = new_board[i];
