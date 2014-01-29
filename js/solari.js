@@ -216,7 +216,7 @@ function updateSolariTable(board){
     }
 
     // update the current_row board
-    current_board = board.slice(0);
+    current_board = board;
 }
 
 function UpdateSolariRow(row, current_row, new_row) {
@@ -336,15 +336,14 @@ function updateSolariBoard() {
         return;
     }
     syncing = true;
-    $.getJSON(URL + (URL.indexOf("?") === -1 ? '?' : '&') + "callback=?", function(data) {
+    $.getJSON(URL + (URL.indexOf("?") === -1 ? '?' : '&') + "callback=?", function(new_board) {
             syncing = false;
-            if (data === null) {
+            if (new_board === null) {
                 //the last updated footer won't get refreshed, but if data is null, it probably shouldn't
                 return;
             }
             //redraw label if recovering from a fail
             $("ul.solari-board-columns li.departure").text("Departure");
-            var new_board = data.slice(0);
             if (new_board.length === 0) {
                 clearBoard();
             } else {
