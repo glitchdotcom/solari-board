@@ -63,13 +63,8 @@ var Status = {
 var LAST_STATUS = 4;
 var NextDueStatus = ["", "soon", "null", "overdue", ""];
 var solari_setup_done = 0;
-var failboard = false;
 var syncing = false;
-
-// start with variable that will hold data, empty, current and new boards
-var solariData;
 var current_board = [];
-var new_board = [];
 
 //an attempt to reduce slowdown from animations
 jQuery.fx.interval = 20;
@@ -210,6 +205,20 @@ function NextDue(id, time, offset, add_class) {
     $(id + ' .inner').attr('class', 'inner ' + add_class); // reset the applied classes
 }
 
+function updateSolariTable(board){
+    for (var row = 0; row < BOARD_ROWS; row++) {
+        if ((board[row] === undefined)) {
+            // make this an empty row
+            board[row] = EMPTY_ROW;
+        }
+        // change the row
+        UpdateSolariRow(row, current_board[row], board[row]);
+    }
+
+    // update the current_row board
+    current_board = board.slice(0);
+}
+
 function UpdateSolariRow(row, current_row, new_row) {
     var rate = RATE_BASE + Math.random() * RATE_VARIANCE + Math.random() * RATE_VARIANCE + Math.random() * RATE_VARIANCE;
 
@@ -323,87 +332,65 @@ function GetFailBoard() {
 }
 
 function updateSolariBoard() {
-    if (!syncing) {
-        syncing = true;
-        $.getJSON(URL + (URL.indexOf("?") === -1 ? '?' : '&') + "callback=?", function(data) {
-                if (data !== null) {
-                    solariData = data.slice(0);
-                    failboard = false;
-                    syncing = false;
-                }
-            }).error(function () {
-                failboard = true;
-                syncing = false;
-            });
-    
-        // update last refresh time text
-        $('#last-updated span').fadeOut("slow", function() {
-            var now = new Date();
-            $('#last-updated span').html(now.toLocaleString());
-        }).fadeIn("slow");
+    if (syncing) {
+        return;
     }
-
-    try {
-        if (solariData.length === 0) {
-            clearBoard();   
-            return;
-        }
-    }
-    catch(err) {}
-
-    //Format the "Next Due" box
-    if (!failboard) {
-        new_board = solariData;
-        var i;
-        //the next due box should display information on the row for which time info is available, which may not be from the first case
-        var time;
-        for (i=0; i < BOARD_ROWS; i++) {
-            time = solariData[i].sTime;
-            if (typeof time !== "undefined")
-                break;
-        }
-        var next_due_row = solariData[i];
-        time = next_due_row.sTime;
-        var timeDelta = Date.parse(next_due_row.sDate + ", " + time).getTime() - new Date().getTime();
-        var nOffset = timeDelta > 0 ? Math.floor(timeDelta / (1000 * 60 * 60 * 24)) : Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide by miliseconds per day and round to zero
-        var sOffset = (nOffset === 0 ? "" : nOffset.toString() + "d"); //if next due is not today, append a "d"
-        if(status_override) {
-            if (time) {
-                var hrsDelta = Number(time.substring(0,2)) - new Date().getHours();
-                nOffset += timeDelta < 0 ? -1 : 0; // if the time difference is negative, which means we are within 24 hours of due, so reduce day offset by 1
-                if (nOffset < 0) {
-                    new_board[0].nStatus = 3; // if we've past the due date
-                } else if (nOffset === 0 && hrsDelta < 2 && hrsDelta >= 0 ) {
-                    new_board[0].nStatus =1; //due within 2 hours
-                } else {
-                    new_board[0].nStatus = failboard ? 1 : 2;
-                }
+    syncing = true;
+    $.getJSON(URL + (URL.indexOf("?") === -1 ? '?' : '&') + "callback=?", function(data) {
+            syncing = false;
+            if (data === null) {
+                //the last updated footer won't get refreshed, but if data is null, it probably shouldn't
+                return;
             }
-        }
-        // add the appropriate class based on status. If no data, green.
-        var status_class = (new_board[0] === EMPTY_ROW ? "later" : NextDueStatus[next_due_row.nStatus])
-        time = (time === "") ? "00:00" : time;
-        NextDue("#next-due", time, sOffset, status_class);
-        $("ul.solari-board-columns li.departure").text("Departure");
-    } else {
-        //failed to get data
-        new_board = GetFailBoard();
-        $("ul.solari-board-columns li.departure").text("FAIL WHALE");
-        NextDue("#next-due", '-FA1L-', '', '');
-    }
-
-    // update each row on the board
-    for (var row = 0; row < BOARD_ROWS; row++) {
-        if ((new_board[row] === undefined)) {
-            // make this an empty row
-            new_board[row] = EMPTY_ROW;
-        }
-        // change the row
-        UpdateSolariRow(row, current_board[row], new_board[row]);
-    }
-
-    // update the current_row board
-    current_board = new_board.slice(0);
+            //redraw label if recovering from a fail
+            $("ul.solari-board-columns li.departure").text("Departure");
+            var new_board = data.slice(0);
+            if (new_board.length === 0) {
+                clearBoard();
+            } else {
+                //the next due box should display information on the row for which time info is available, which may not be from the first case
+                var i, time;
+                for (i=0; i < BOARD_ROWS; i++) {
+                    time = new_board[i].sTime;
+                    if (typeof time !== "undefined")
+                        break;
+                }
+                var next_due_row = new_board[i];
+                if (time) {
+                    var timeDelta = Date.parse(next_due_row.sDate + ", " + time).getTime() - new Date().getTime();
+                    var nOffset = timeDelta > 0 ? Math.floor(timeDelta / (1000 * 60 * 60 * 24)) : Math.ceil(timeDelta / (1000 * 60 * 60 * 24)); //divide by miliseconds per day and round to zero
+                    var sOffset = (nOffset === 0 ? "" : nOffset.toString() + "d"); //if next due is not today, append a "d"
+                    if(status_override) {
+                        var hrsDelta = Number(time.substring(0,2)) - new Date().getHours();
+                        nOffset += timeDelta < 0 ? -1 : 0; // if the time difference is negative, which means we are within 24 hours of due, so reduce day offset by 1
+                        if (nOffset < 0) {
+                            new_board[0].nStatus = 3; // if we've past the due date
+                        } else if (nOffset === 0 && hrsDelta < 2 && hrsDelta >= 0 ) {
+                            new_board[0].nStatus = 1; //due within 2 hours
+                        } else {
+                            new_board[0].nStatus = 2;
+                        }
+                    }
+                    // add the appropriate class based on status. If no data, green.
+                    var status_class = (new_board[0] === EMPTY_ROW ? "later" : NextDueStatus[next_due_row.nStatus])
+                    NextDue("#next-due", time, sOffset, status_class);
+                } else {
+                    NextDue("#next-due", '00:00', '', '');
+                }
+                //now that the nStatus values have been set, update the board
+                updateSolariTable(new_board);
+            }
+            // update last refresh time text
+            $('#last-updated span').fadeOut("slow", function() {
+                var now = new Date();
+                $('#last-updated span').html(now.toLocaleString());
+            }).fadeIn("slow");
+        }).error(function () {
+            syncing = false;
+            updateSolariTable(GetFailBoard());
+            NextDue("#next-due", '-FA1L-', '', '');
+            $("ul.solari-board-columns li.departure").text("FAIL WHALE");
+        });
 }
 
 function clearBoard() {
