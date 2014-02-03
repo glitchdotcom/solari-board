@@ -12,6 +12,8 @@ following properties:
 
   * `sDate`: the day of the appointment.  The Solari board can handle values
     like `yesterday` or `today`.
+  * `sTime`: the time of the appointment.  Format like `22:45` and remember the leading zero
+    on the hours. If this appointment does not have a time, make it an empty string.
   * `sDeparture`: an arbitrary string; on our board, it's the email address of
     the support technition who has the support call.
   * `nStatus`: allows you to set the status to one of four statuses: "All Aboard" (`nStatus
