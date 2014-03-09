@@ -52,6 +52,9 @@ var EMPTY_ROW = {
 var status_override = true;
 var URL = "../example/postJsonp.py"
 
+//used to add extra params that change over time.  /example_realtime makes use of this
+var URL_SUFFIX = "";
+
 var Status = {
     "none": 0,
     "all_aboard": 1,
@@ -336,7 +339,7 @@ function updateSolariBoard() {
         return;
     }
     syncing = true;
-    $.getJSON(URL + (URL.indexOf("?") === -1 ? '?' : '&') + "callback=?", function(new_board) {
+    $.getJSON(URL + (URL.indexOf("?") === -1 ? '?' : '&') + "callback=?" + URL_SUFFIX, function(new_board) {
             syncing = false;
             if (new_board === null) {
                 //the last updated footer won't get refreshed, but if data is null, it probably shouldn't
