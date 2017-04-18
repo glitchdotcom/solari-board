@@ -1,4 +1,4 @@
-#Solari Board
+# Solari Board
 ![](https://trello-attachments.s3.amazonaws.com/51bf2a13808218916c006928/51f02c885eee4b1708001f67/2c081fd8d5fcf4cb505392784667372e/genericBoard.PNG)
 
 Fog Creek has used its [Big Board](http://blog.fogcreek.com/big-board-having-fun-with-data/)
@@ -53,7 +53,7 @@ Here's an example:
     )
 
 
-#How do I use it?
+# How do I use it?
 
 It's simple!
 
@@ -95,7 +95,7 @@ Currently, Google Chrome and Internet Explorer are the only supported browsers.
 This is due to an issue in animating the CSS property `backgroundPositionY` on
 other browsers.  We'd welcome patches that help resolve this issue.
 
-##Additional Configuration and Examples
+## Additional Configuration and Examples
 - Toggle `status_override` in `solari.js` to have the board automatically change the 
   status column using time and date due.
 - The `sDate` field takes any 
@@ -108,10 +108,10 @@ other browsers.  We'd welcome patches that help resolve this issue.
 
 ![FogBugz Solari Board](https://trello-attachments.s3.amazonaws.com/51bf2a13808218916c006928/51f02c885eee4b1708001f67/1b1ee7b798d88a6c39cf320d28146b36/fogbgzedition.PNG)
 
-##Copyright
+## Copyright
 
 Copyright © 2013 Fog Creek Software, Inc. All rights reserved.
 
-###Licensing
+### Licensing
 
 The Solari Board is licensed under the [MIT](http://opensource.org/licenses/mit-license.php) license.
